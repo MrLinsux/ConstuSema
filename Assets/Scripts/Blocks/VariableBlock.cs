@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quantifier : MonoBehaviour
+public class VariableBlock : SemanticBlock
 {
+    protected override void SetBlockShadowParams()
+    {
+        throw new System.NotImplementedException();
+    }
     // Start is called before the first frame update
     void Start()
     {
