@@ -15,8 +15,6 @@ public class RelationBlock : SemanticBlock
     Transform leftBlockPlace;
     [SerializeField]
     Transform rightBlockPlace;
-    SemanticBlock leftBlock;
-    SemanticBlock rightBlock;
 
     // system
     [SerializeField]
@@ -27,10 +25,5 @@ public class RelationBlock : SemanticBlock
     {
         this.relation = relation;
         relationTitle.text = relationTitles[(int)relation];
-    }
-
-    protected override void SetBlockShadowParams()
-    {
-        throw new System.NotImplementedException();
     }
 }

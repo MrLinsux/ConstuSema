@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     // qol
     Camera MainCamera { get { return Camera.main; } }
@@ -15,10 +16,22 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public Transform DefaultParent { get { return defaultParent; } set { defaultParent = value; } }
     public Transform DefaultShadowParent { get { return BlockShadow.parent; } set { BlockShadow.SetParent(value); } }
     Transform BlockShadow { get { return GameObject.Find("BlockShadow").transform; } }
-    protected abstract void SetBlockShadowParams();
 
     // inspector
+    [SerializeField]
+    int numberOfPlaces = 2;
+    int NumberOfPlaces { get { return numberOfPlaces; } }
+    int CurrentPlacesOccupied { get { return arguments.Length; } }
 
+    // semantic params
+    protected SemanticBlock[] arguments { get { return transform.GetComponentsInChildren<SemanticBlock>().Where(e => e.transform.parent == transform).ToArray(); } }
+
+    // movement
+    private void Update()
+    {
+        var pos = new Vector3(transform.position.x, transform.position.y, 0);
+        transform.position = pos;
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -28,13 +41,31 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         transform.SetParent(DefaultParent.parent);
         BlockShadow.SetSiblingIndex(transform.GetSiblingIndex());
 
-        BlockShadow.GetComponent<Image>().enabled = true;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
+
+        if (!DefaultParent.GetComponent<Table>())
+        {
+            BlockShadow.GetComponent<Image>().enabled = true;
+            SetBlockShadowForm();
+        }
+    }
+
+    void SetBlockShadowForm()
+    {
+        var currentRect = GetComponent<RectTransform>();
+        BlockShadow.GetComponent<RectTransform>().sizeDelta = currentRect.sizeDelta;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!DefaultParent.GetComponent<Table>())
+        {
+            BlockShadow.GetComponent<Image>().enabled = true;
+            SetBlockShadowForm();
+        }
+
         transform.position = (Vector2)(MainCamera.ScreenToWorldPoint(eventData.position) + offset);
+        transform.localPosition -= Vector3.forward * transform.localPosition.z;
 
         SetNewBlockShadowPosition();
     }
@@ -70,5 +101,45 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         }
 
         BlockShadow.SetSiblingIndex(newIndex);
-    }    
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
+
+        if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
+        {
+            semanticBlock.DefaultParent = transform;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (eventData.pointerDrag == null)
+        {
+            return;
+        }
+
+        SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
+
+        if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
+        {
+            semanticBlock.DefaultShadowParent = transform;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (eventData.pointerDrag == null)
+        {
+            return;
+        }
+
+        SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
+
+        if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
+        {
+            semanticBlock.DefaultShadowParent = semanticBlock.DefaultParent;
+        }
+    }
 }

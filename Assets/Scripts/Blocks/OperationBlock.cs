@@ -14,8 +14,6 @@ public class OperationBlock : SemanticBlock
     Transform leftBlockPlace;
     [SerializeField]
     Transform rightBlockPlace;
-    SemanticBlock leftBlock;
-    SemanticBlock rightBlock;
 
     // system
     [SerializeField]
@@ -26,10 +24,5 @@ public class OperationBlock : SemanticBlock
     {
         this.operaion = operation;
         operationTitle.text = operationTitles[(int)operation];
-    }
-
-    protected override void SetBlockShadowParams()
-    {
-        throw new System.NotImplementedException();
     }
 }

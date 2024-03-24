@@ -1,22 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+
+public enum VariableType { Letter, Number, Set, Interval }
 
 public class VariableBlock : SemanticBlock
 {
-    protected override void SetBlockShadowParams()
-    {
-        throw new System.NotImplementedException();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

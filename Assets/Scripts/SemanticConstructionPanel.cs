@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    void CheckConstruction()
+    {
+
+    }
+
+    // movement
     public void OnDrop(PointerEventData eventData)
     {
         SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
@@ -12,6 +19,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         if(semanticBlock)
         {
             semanticBlock.DefaultParent = transform;
+            CheckConstruction();
         }
     }
 
