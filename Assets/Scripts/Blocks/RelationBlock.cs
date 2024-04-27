@@ -26,4 +26,9 @@ public class RelationBlock : SemanticBlock
         this.relation = relation;
         relationTitle.text = relationTitles[(int)relation];
     }
+
+    public override string ToString()
+    {
+        throw new System.NotImplementedException();
+    }
 }

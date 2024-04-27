@@ -225,6 +225,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPlaces: 0
+  variableType: 0
+  variableName: 
+  variableNameTitle: {fileID: 2935597458323673292}
 --- !u!225 &2663672979021923419
 CanvasGroup:
   m_ObjectHideFlags: 0

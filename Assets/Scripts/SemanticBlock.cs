@@ -17,14 +17,24 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public Transform DefaultShadowParent { get { return BlockShadow.parent; } set { BlockShadow.SetParent(value); } }
     Transform BlockShadow { get { return GameObject.Find("BlockShadow").transform; } }
 
+    public abstract override string ToString();
+
     // inspector
     [SerializeField]
     int numberOfPlaces = 2;
-    int NumberOfPlaces { get { return numberOfPlaces; } }
+    public int NumberOfPlaces { get { return numberOfPlaces; } 
+        protected set { 
+            numberOfPlaces = value; 
+            if(numberOfPlaces < CurrentPlacesOccupied)
+            {
+                // TODO: remove excess blocks
+            }
+        } }
     int CurrentPlacesOccupied { get { return arguments.Length; } }
 
     // semantic params
     protected SemanticBlock[] arguments { get { return transform.GetComponentsInChildren<SemanticBlock>().Where(e => e.transform.parent == transform).ToArray(); } }
+    protected object[] avaliableInputTypes;
 
     // movement
     private void Update()
@@ -32,6 +42,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         var pos = new Vector3(transform.position.x, transform.position.y, 0);
         transform.position = pos;
     }
+
+    #region DragAndDrop
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -142,4 +154,5 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
             semanticBlock.DefaultShadowParent = semanticBlock.DefaultParent;
         }
     }
+    #endregion
 }
