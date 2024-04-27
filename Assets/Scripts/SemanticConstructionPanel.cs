@@ -71,7 +71,6 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         if(semanticBlock)
         {
             semanticBlock.DefaultParent = transform;
-            CheckConstruction();
         }
     }
 
@@ -86,6 +85,8 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
         if(semanticBlock)
         {
+            semanticBlock.SetBlockShadowActive(true);
+            semanticBlock.SetBlockShadowForm();
             semanticBlock.DefaultShadowParent = transform;
         }
     }
@@ -101,6 +102,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
         if (semanticBlock)
         {
+            semanticBlock.SetBlockShadowActive(false);
             semanticBlock.DefaultShadowParent = semanticBlock.DefaultParent;
         }
     }

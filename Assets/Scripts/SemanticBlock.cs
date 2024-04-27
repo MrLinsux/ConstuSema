@@ -17,6 +17,11 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public Transform DefaultShadowParent { get { return BlockShadow.parent; } set { BlockShadow.SetParent(value); } }
     Transform BlockShadow { get { return GameObject.Find("BlockShadow").transform; } }
 
+    public void SetBlockShadowActive(bool isActive)
+    {
+        BlockShadow.GetComponent<Image>().enabled = isActive;
+    }
+
     public abstract override string ToString();
 
     // inspector
@@ -62,7 +67,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         }
     }
 
-    void SetBlockShadowForm()
+    public void SetBlockShadowForm()
     {
         var currentRect = GetComponent<RectTransform>();
         BlockShadow.GetComponent<RectTransform>().sizeDelta = currentRect.sizeDelta;
@@ -136,6 +141,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
         if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
         {
+            semanticBlock.SetBlockShadowActive(true);
+            semanticBlock.SetBlockShadowForm();
             semanticBlock.DefaultShadowParent = transform;
         }
     }
@@ -151,6 +158,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
         if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
         {
+            semanticBlock.SetBlockShadowActive(false);
             semanticBlock.DefaultShadowParent = semanticBlock.DefaultParent;
         }
     }
