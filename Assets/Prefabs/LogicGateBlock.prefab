@@ -41,7 +41,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 60}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7692476428622778803
 CanvasRenderer:
@@ -63,11 +63,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dca2d30c78f3ee4386a2fb801296754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tmpTitle: {fileID: 568138676359158478}
   numberOfPlaces: 2
   logicGate: 0
-  leftBlockPlace: {fileID: 0}
-  rightBlockPlace: {fileID: 0}
-  logicGateTitle: {fileID: 568138676359158478}
 --- !u!114 &385933990709443768
 MonoBehaviour:
   m_ObjectHideFlags: 0

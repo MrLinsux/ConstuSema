@@ -11,10 +11,6 @@ public class RelationBlock : SemanticBlock
     [SerializeField]
     Relation relation;
     public Relation Relation { get { return relation; } }
-    [SerializeField]
-    Transform leftBlockPlace;
-    [SerializeField]
-    Transform rightBlockPlace;
 
     // system
     [SerializeField]

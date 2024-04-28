@@ -10,43 +10,42 @@ public class LogicGateBlock : SemanticBlock
     [SerializeField]
     LogicGates logicGate;
     public LogicGates LogicGate { get { return logicGate; } }
-    [SerializeField]
-    Transform leftBlockPlace;
-    [SerializeField]
-    Transform rightBlockPlace;
 
     // system
-    [SerializeField]
-    TMP_Text logicGateTitle;
     string[] logicGatesTitles = new string[] { "NOT", "OR", "AND" };
     string gatesAsChar = "!|&";
 
     private void Awake()
     {
         SetBlockType(logicGate);
-        logicGateTitle.text = logicGatesTitles[(int)logicGate];
+        tmpTitle.text = logicGatesTitles[(int)logicGate];
     }
 
     public void Init(LogicGates logicGate)
     {
         this.logicGate = logicGate;
-        logicGateTitle.text = logicGatesTitles[(int)logicGate];
+        tmpTitle.text = logicGatesTitles[(int)logicGate];
+        SetBlockType(logicGate);
+    }
+    public void Init(int logicGate)
+    {
+        this.logicGate = (LogicGates)logicGate;
+        tmpTitle.text = logicGatesTitles[logicGate];
+        SetBlockType((LogicGates)logicGate);
     }
 
     public void SetBlockType(LogicGates gateType)
     {
+        logicGate = gateType;
         switch ((int)gateType)
         {
             case 0:
-                logicGate = LogicGates.NOT;
                 NumberOfPlaces = 1;
                 break;
             case 1:
-                logicGate = LogicGates.AND;
                 NumberOfPlaces = 2;
                 break;
             case 2:
-                logicGate = LogicGates.OR;
                 NumberOfPlaces = 2;
                 break;
             default:

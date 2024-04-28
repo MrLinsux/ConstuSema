@@ -13,21 +13,18 @@ public class VariableBlock : SemanticBlock
     public VariableType VariableType { get { return variableType; } }
     [SerializeField]
     string variableName;
+    public string VariableName { get { return variableName; } set { variableName = value; } }
     [SerializeField]
     TMP_Text variableNameTitle;
-
-    private void Awake()
-    {
-        variableNameTitle.text = variableName;
-    }
 
     public void Init(VariableType type)
     {
         variableType = type;
+        variableNameTitle.text = VariableName;
     }
 
     public override string ToString()
     {
-        return variableName;
+        return VariableName;
     }
 }

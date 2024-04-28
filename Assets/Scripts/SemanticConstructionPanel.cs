@@ -16,6 +16,8 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
         if (mainBlock)
         {
+            string res = string.Empty;
+
             string construction = mainBlock.ToString();
             Debug.Log(construction);
             var tempArguments = transform.GetComponentsInChildren<SemanticBlock>().Where(e => e is VariableBlock).ToArray();
@@ -23,7 +25,9 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             for(int i = 0; i < tempArguments.Length; i++)
             {
                 argsNames[i] = tempArguments[i].ToString();
+                res += argsNames[i] + " ";
             }
+            res += "Res\n";
 
             // iter 0 0 ... 0
             int[] argsVals = new int[tempArguments.Length];
@@ -34,9 +38,8 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             {
                 valsSet += argsVals[j].ToString() + " ";
                 calConstruction = calConstruction.Replace(argsNames[j].ToString(), argsVals[j].ToString());
-                Debug.Log(calConstruction);
             }
-            Debug.Log($"For Set: {valsSet}res is {PolishNotation.Calculate(calConstruction)}");
+            res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
 
             // other iters
             for (int i = 1; i < Mathf.Pow(2, argsNames.Length); i++)
@@ -56,10 +59,11 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
                 {
                     valsSet += argsVals[j].ToString() + " ";
                     calConstruction = calConstruction.Replace(argsNames[j].ToString(), argsVals[j].ToString());
-                    //Debug.Log(calConstruction);
                 }
-                Debug.Log($"For Set: {valsSet}res is {PolishNotation.Calculate(calConstruction)}");
+                res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
             }
+
+            Debug.Log(res);
         }
     }
 

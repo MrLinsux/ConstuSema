@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,6 +17,9 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public Transform DefaultParent { get { return defaultParent; } set { defaultParent = value; } }
     public Transform DefaultShadowParent { get { return BlockShadow.parent; } set { BlockShadow.SetParent(value); } }
     Transform BlockShadow { get { return GameObject.Find("BlockShadow").transform; } }
+    [SerializeField]
+    protected TMP_Text tmpTitle;
+    public string TMP_Title { get { return tmpTitle.text; } }
 
     public void SetBlockShadowActive(bool isActive)
     {

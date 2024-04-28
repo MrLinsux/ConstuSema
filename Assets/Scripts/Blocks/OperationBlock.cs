@@ -11,10 +11,6 @@ public class OperationBlock : SemanticBlock
     [SerializeField]
     Operation operaion;
     public Operation Operation { get { return operaion; } }
-    [SerializeField]
-    Transform leftBlockPlace;
-    [SerializeField]
-    Transform rightBlockPlace;
 
     // system
     [SerializeField]
