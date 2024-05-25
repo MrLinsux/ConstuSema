@@ -105,10 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e5801de30fd014fac142d53ac863b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tmpTitle: {fileID: 0}
   numberOfPlaces: 2
   relation: 0
-  leftBlockPlace: {fileID: 0}
-  rightBlockPlace: {fileID: 0}
   relationTitle: {fileID: 568138676359158478}
 --- !u!114 &3766154111953242382
 MonoBehaviour:

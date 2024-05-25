@@ -34,12 +34,6 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             for (int i = 0; i < argsVals.Length; ++i) argsVals[i] = 0;
             string calConstruction = construction;
             string valsSet = "";
-            for (int j = 0; j < argsVals.Length; ++j)
-            {
-                valsSet += argsVals[j].ToString() + " ";
-                calConstruction = calConstruction.Replace(argsNames[j].ToString(), argsVals[j].ToString());
-            }
-            res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
 
             // other iters
             for (int i = 1; i < Mathf.Pow(2, argsNames.Length); i++)
