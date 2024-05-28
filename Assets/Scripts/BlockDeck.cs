@@ -15,7 +15,7 @@ public class BlockDeck : MonoBehaviour
         if (block is LogicGateBlock)
         {
             ((LogicGateBlock)block).Init(blockType);
-            GetComponentInChildren<TMP_Text>().text = block.TMP_Title;
+            GetComponentInChildren<TMP_Text>().text = block.BlockTitle;
         }
     }
 

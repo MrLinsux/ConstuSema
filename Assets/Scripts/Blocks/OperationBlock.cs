@@ -13,15 +13,18 @@ public class OperationBlock : SemanticBlock
     public Operation Operation { get { return operaion; } }
 
     // system
-    [SerializeField]
-    TMP_Text operationTitle;
     string[] operationTitles = new string[] { "+", "-", "×", "÷" };
     string operatorsAsChar = "+-*/";
+
+    private void Start()
+    {
+        Init(Operation);
+    }
 
     public void Init(Operation operation)
     {
         this.operaion = operation;
-        operationTitle.text = operationTitles[(int)operation];
+        blockTitle.text = operationTitles[(int)operation];
     }
 
     public override string ToString()

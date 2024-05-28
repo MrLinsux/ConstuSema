@@ -26,7 +26,7 @@ public class VariableBlockDeck : MonoBehaviour
             _block.VariableName = variableBlockNextName.ToString();
             variableBlockNextName++;
             GetComponentInChildren<TMP_Text>().text = variableBlockNextName.ToString();
-            _block.Init(VariableType.Logic);
+            _block.Init(VariableType.Variable);
         }
         else
             Debug.LogWarning("Block is null");

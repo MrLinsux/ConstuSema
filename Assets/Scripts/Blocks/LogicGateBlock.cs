@@ -13,24 +13,25 @@ public class LogicGateBlock : SemanticBlock
 
     // system
     string[] logicGatesTitles = new string[] { "NOT", "OR", "AND" };
-    string gatesAsChar = "!|&";
+    string asChar = "!|&";
 
     private void Awake()
     {
         SetBlockType(logicGate);
-        tmpTitle.text = logicGatesTitles[(int)logicGate];
+        blockTitle.text = logicGatesTitles[(int)logicGate];
     }
 
     public void Init(LogicGates logicGate)
     {
         this.logicGate = logicGate;
-        tmpTitle.text = logicGatesTitles[(int)logicGate];
+        blockTitle.text = logicGatesTitles[(int)logicGate];
         SetBlockType(logicGate);
     }
+
     public void Init(int logicGate)
     {
         this.logicGate = (LogicGates)logicGate;
-        tmpTitle.text = logicGatesTitles[logicGate];
+        blockTitle.text = logicGatesTitles[logicGate];
         SetBlockType((LogicGates)logicGate);
     }
 
@@ -53,21 +54,6 @@ public class LogicGateBlock : SemanticBlock
         }
     }
 
-    public bool LogicNOT(bool x)
-    {
-        return !x;
-    }
-
-    public bool LogicAND(bool x, bool y)
-    {
-        return x && y;
-    }
-
-    public bool LogicOR(bool x, bool y)
-    {
-        return x || y;
-    }
-
     public override string ToString()
     {
         if(logicGate == LogicGates.NOT)
@@ -76,7 +62,7 @@ public class LogicGateBlock : SemanticBlock
         }
         else
         {
-            return $"({arguments[0]}{gatesAsChar[(int)logicGate]}{arguments[1]})";
+            return $"({arguments[0]}{asChar[(int)logicGate]}{arguments[1]})";
         }
     }
 }

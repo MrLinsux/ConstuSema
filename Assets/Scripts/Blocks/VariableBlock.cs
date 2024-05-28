@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum VariableType { Letter, Number, Set, Interval, Logic }
+public enum VariableType { Variable, Constatnt, Set }
 
 public class VariableBlock : SemanticBlock
 {
@@ -14,13 +14,16 @@ public class VariableBlock : SemanticBlock
     [SerializeField]
     string variableName;
     public string VariableName { get { return variableName; } set { variableName = value; } }
-    [SerializeField]
-    TMP_Text variableNameTitle;
+
+    private void Start()
+    {
+        Init(VariableType);
+    }
 
     public void Init(VariableType type)
     {
         variableType = type;
-        variableNameTitle.text = VariableName;
+        blockTitle.text = VariableName;
     }
 
     public override string ToString()

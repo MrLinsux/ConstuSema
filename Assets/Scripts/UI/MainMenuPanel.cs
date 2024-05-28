@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
@@ -47,7 +48,18 @@ public class MainMenuPanel : MonoBehaviour
 
     public void LoadStartTestScene()
     {
+        SceneManager.LoadScene(2);
+    }
 
+    public void LoadStartEasyTestScene()
+    {
+        TestController.isEasyTest = true;
+        SceneManager.LoadScene(2);
+    }
+
+    public void LoadSandboxScene()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void LoadTest()

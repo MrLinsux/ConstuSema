@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -18,8 +16,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public Transform DefaultShadowParent { get { return BlockShadow.parent; } set { BlockShadow.SetParent(value); } }
     Transform BlockShadow { get { return GameObject.Find("BlockShadow").transform; } }
     [SerializeField]
-    protected TMP_Text tmpTitle;
-    public string TMP_Title { get { return tmpTitle.text; } }
+    protected TMP_Text blockTitle;
+    public string BlockTitle { get { return blockTitle.text; } }
 
     public void SetBlockShadowActive(bool isActive)
     {
@@ -28,16 +26,17 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public abstract override string ToString();
 
+    public void SetActiveOutline(bool isActive)
+    {
+        GetComponent<Outline>().enabled = isActive;
+    }
+
     // inspector
     [SerializeField]
     int numberOfPlaces = 2;
     public int NumberOfPlaces { get { return numberOfPlaces; } 
         protected set { 
-            numberOfPlaces = value; 
-            if(numberOfPlaces < CurrentPlacesOccupied)
-            {
-                // TODO: remove excess blocks
-            }
+            numberOfPlaces = value;
         } }
     int CurrentPlacesOccupied { get { return arguments.Length; } }
 
@@ -132,6 +131,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         {
             semanticBlock.DefaultParent = transform;
         }
+        //SetActiveOutline(CurrentPlacesOccupied != NumberOfPlaces);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

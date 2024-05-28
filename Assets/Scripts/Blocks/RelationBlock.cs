@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static TotalBlockData;
 
-public enum Relation { Equal, NotEqual, Bigger, BiggerOrEqual, Less, LessOrEqual }
+public enum Relation { Equal, NotEqual, Bigger, BiggerOrEqual, Less, LessOrEqual, Member, Subset }
 
 public class RelationBlock : SemanticBlock
 {
@@ -13,18 +14,22 @@ public class RelationBlock : SemanticBlock
     public Relation Relation { get { return relation; } }
 
     // system
-    [SerializeField]
-    TMP_Text relationTitle;
-    string[] relationTitles = new string[] { "=", "≠", ">", "≥", "<", "≤" };
+    string[] relationTitles = new string[] { "=", "≠", ">", "≥", "<", "≤", "∊", "⊂" };
+    string asChar = "=≠>≥<≤∈⊂";
+
+    private void Start()
+    {
+        Init(Relation);
+    }
 
     public void Init(Relation relation)
     {
         this.relation = relation;
-        relationTitle.text = relationTitles[(int)relation];
+        blockTitle.text = relationTitles[(int)relation];
     }
 
     public override string ToString()
     {
-        throw new System.NotImplementedException();
+        return $"({arguments[0]}{asChar[(int)relation]}{arguments[1]})";
     }
 }

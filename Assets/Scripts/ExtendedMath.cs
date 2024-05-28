@@ -19,7 +19,7 @@ public class Interval
         }
     }
 
-    public bool NumberInInterval(float number)
+    public bool NumberIsInInterval(float number)
     {
         return (this.a <= number) && (this.b >= number);
     }
@@ -32,7 +32,7 @@ public class MathSet
     public bool IsEmpty
     {
         get
-        { 
+        {
             // TODO: semiexceptioned rules is not include
             return this.rule == null || rule == string.Empty;
         }
@@ -67,9 +67,4 @@ public class MathSet
     {
         this.rule = rule;
     }
-}
-
-class NaturalMathSet : MathSet
-{
-    
 }
