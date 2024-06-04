@@ -26,8 +26,6 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
     public void CheckConstruction()
     {
-        // get polish notation
-        // let there is only one block
         var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
         if (mainBlock)
         {
@@ -37,8 +35,6 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
     public string CheckConstruction(bool fullTable)
     {
-        // get polish notation
-        // let there is only one block
         var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
         if (mainBlock)
         {

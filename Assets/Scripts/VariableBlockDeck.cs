@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,11 +7,14 @@ public class VariableBlockDeck : MonoBehaviour
 {
     [SerializeField]
     SemanticBlock block;
-    static char variableBlockNextName = 'A';
-
+    [SerializeField]
+    char variableBlockName = 'A';
+    [SerializeField]
+    VariableType variableType = VariableType.Variable;
+    // greek symbols from 945 to 970
     private void Start()
     {
-        GetComponentInChildren<TMP_Text>().text = variableBlockNextName.ToString();
+        GetComponentInChildren<TMP_Text>().text = variableBlockName.ToString();
     }
 
     public void SpawnBlock()
@@ -23,10 +26,8 @@ public class VariableBlockDeck : MonoBehaviour
                 Quaternion.identity, 
                 GameObject.Find("Table").transform
                 ).GetComponent<VariableBlock>();
-            _block.VariableName = variableBlockNextName.ToString();
-            variableBlockNextName++;
-            GetComponentInChildren<TMP_Text>().text = variableBlockNextName.ToString();
-            _block.Init(VariableType.Variable);
+            _block.VariableName = variableBlockName.ToString();
+            _block.Init(variableType);
         }
         else
             Debug.LogWarning("Block is null");

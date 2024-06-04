@@ -12,32 +12,28 @@ public class LogicGateBlock : SemanticBlock
     public LogicGates LogicGate { get { return logicGate; } }
 
     // system
-    string[] logicGatesTitles = new string[] { "NOT", "OR", "AND" };
+    string[] logicGatesTitles = new string[] { "¬", "∨", "∧" };
     string asChar = "!|&";
 
     private void Awake()
     {
         SetBlockType(logicGate);
-        blockTitle.text = logicGatesTitles[(int)logicGate];
     }
 
     public void Init(LogicGates logicGate)
     {
-        this.logicGate = logicGate;
-        blockTitle.text = logicGatesTitles[(int)logicGate];
         SetBlockType(logicGate);
     }
 
     public void Init(int logicGate)
     {
-        this.logicGate = (LogicGates)logicGate;
-        blockTitle.text = logicGatesTitles[logicGate];
         SetBlockType((LogicGates)logicGate);
     }
 
     public void SetBlockType(LogicGates gateType)
     {
         logicGate = gateType;
+        blockTitle.text = logicGatesTitles[(int)gateType];
         switch ((int)gateType)
         {
             case 0:
