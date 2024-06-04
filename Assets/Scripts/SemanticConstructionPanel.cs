@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,18 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
     [SerializeField]
     GameObject resultPanel;
 
+    string GetBinarySet(int dec, int n)
+    {
+        string res = Convert.ToString(dec, 2);
+
+        for(int i = res.Length; i < n; i++)
+        {
+            res = "0" + res;
+        }
+
+        return res;
+    }
+
     public void CheckConstruction()
     {
         // get polish notation
@@ -18,54 +31,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
         if (mainBlock)
         {
-            string res = string.Empty;
-
-            string construction = mainBlock.ToString();
-            Debug.Log(construction);
-            var tempArguments = transform.GetComponentsInChildren<SemanticBlock>().Where(e => e is VariableBlock).ToArray();
-            string[] argsNames = new string[tempArguments.Length];
-
-                for (int i = 0; i < tempArguments.Length; i++)
-                {
-                    argsNames[i] = tempArguments[i].ToString();
-                    res += argsNames[i] + " ";
-                }
-                res += "Var\n";
-
-            // iter 0 0 ... 0
-            int[] argsVals = new int[tempArguments.Length];
-            for (int i = 0; i < argsVals.Length; ++i) argsVals[i] = 0;
-            string calConstruction = construction;
-            string valsSet = "";
-
-            // other iters
-            for (int i = 1; i < Mathf.Pow(2, argsNames.Length); i++)
-            {
-                if ((++argsVals[argsNames.Length - 1]) % 2 == 0)
-                {
-                    argsVals[argsNames.Length - 1] %= 2;
-                    int j = argsNames.Length - 2;
-                    while (j >= 0 && (++argsVals[j]) % 2 == 0)
-                    {
-                        argsVals[j--] %= 2;
-                    }
-                }
-                calConstruction = construction;
-                valsSet = "";
-                for (int j = 0; j < argsVals.Length; ++j)
-                {
-                    valsSet += argsVals[j].ToString() + " ";
-                    calConstruction = calConstruction.Replace(argsNames[j].ToString(), argsVals[j].ToString());
-                }
-                    res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
-            }
-
-            Debug.Log(res);
-            if (resultPanel)
-            {
-                resultPanel.SetActive(true);
-                resultPanel.GetComponentInChildren<TMP_Text>().text = res;
-            }
+            CheckConstruction(mainBlock.ToString(), true);
         }
     }
 
@@ -76,61 +42,60 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
         if (mainBlock)
         {
+            return CheckConstruction(mainBlock.ToString(), fullTable);
+        }
+        return null;
+    }
+
+    public string CheckConstruction(string construction, bool fullTable)
+    {
+        // get polish notation
+        // let there is only one block
+        var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
+        if (mainBlock)
+        {
             string res = string.Empty;
 
-            string construction = mainBlock.ToString();
             Debug.Log(construction);
-            var tempArguments = transform.GetComponentsInChildren<SemanticBlock>().Where(e => e is VariableBlock).ToArray();
-            string[] argsNames = new string[tempArguments.Length];
+            var arguments = transform.GetComponentsInChildren<SemanticBlock>().
+                Where(e => 
+                    (e is VariableBlock) && 
+                    e.GetComponent<VariableBlock>().VariableType == VariableType.Variable
+                ).ToArray();
+            int argumentsNum = arguments.Length;
 
-                for (int i = 0; i < tempArguments.Length; i++)
+            string[] argsNames = new string[argumentsNum];
+
+                for (int i = 0; i < argumentsNum; i++)
                 {
-                    argsNames[i] = tempArguments[i].ToString();
+                    argsNames[i] = arguments[i].ToString();
                     if (fullTable)
                     {
-                        res += argsNames[i] + " ";
+                        res += argsNames[i];
                     }
                 }
                 if (fullTable)
                 {
-                    res += "Var\n";
+                    res += "Vec\n";
                 }
 
-            // iter 0 0 ... 0
-            int[] argsVals = new int[tempArguments.Length];
-            for (int i = 0; i < argsVals.Length; ++i) argsVals[i] = 0;
             string calConstruction = construction;
-            string valsSet = "";
-            for (int j = 0; j < argsVals.Length; ++j)
-            {
-                valsSet += argsVals[j].ToString() + " ";
-                calConstruction = calConstruction.Replace(argsNames[j].ToString(), argsVals[j].ToString());
-            }
-            res += PolishNotation.Calculate(calConstruction).ToString();
 
-            // other iters
-            for (int i = 1; i < Mathf.Pow(2, argsNames.Length); i++)
+            for (int argValue = 0; argValue < Mathf.Pow(2, argsNames.Length); argValue++)
             {
-                if ((++argsVals[argsNames.Length-1]) % 2 == 0)
+                string valsSet = GetBinarySet(argValue, argumentsNum);
+
+                for (int i = 0; i < argumentsNum; ++i)
                 {
-                    argsVals[argsNames.Length - 1] %= 2;
-                    int j = argsNames.Length - 2;
-                    while (j >= 0 && (++argsVals[j]) % 2 == 0)
-                    {
-                        argsVals[j--] %= 2;
-                    }
+                    calConstruction = calConstruction.Replace(argsNames[i].ToString(), valsSet[i].ToString());
                 }
-                calConstruction = construction;
-                valsSet = "";
-                for(int j = 0; j < argsVals.Length; ++j)
-                {
-                    valsSet += argsVals[j].ToString() + " ";
-                    calConstruction = calConstruction.Replace(argsNames[j].ToString(), argsVals[j].ToString());
-                }
+
                 if (fullTable)
                     res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
                 else
                     res += PolishNotation.Calculate(calConstruction).ToString();
+
+                calConstruction = construction;
             }
 
             Debug.Log(res);
