@@ -65,8 +65,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockTitle: {fileID: 568138676359158478}
+  blockType: 0
   numberOfPlaces: 2
-  logicGate: 1
 --- !u!114 &385933990709443768
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     [SerializeField]
     protected TMP_Text blockTitle;
     public string BlockTitle { get { return blockTitle.text; } protected set { blockTitle.text = value; } }
+    bool pointerIsInObject = false;
+    protected bool PointerIsInObject { get { return pointerIsInObject; } }
 
     public void SetBlockShadowActive(bool isActive)
     {
@@ -53,6 +55,14 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     {
         var pos = new Vector3(transform.position.x, transform.position.y, 0);
         transform.position = pos;
+
+        if (PointerIsInObject)
+        {
+            if(Input.GetKeyDown(KeyCode.D))
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     #region DragAndDrop
@@ -140,6 +150,10 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+
+        if (eventData.pointerEnter)
+            pointerIsInObject = true;
+
         if (eventData.pointerDrag == null)
         {
             return;
@@ -157,11 +171,14 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public void OnPointerExit(PointerEventData eventData)
     {
+
+        if (eventData.pointerEnter)
+            pointerIsInObject = false;
+
         if (eventData.pointerDrag == null)
         {
             return;
         }
-
         SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
 
         if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)

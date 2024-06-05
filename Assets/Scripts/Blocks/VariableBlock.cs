@@ -13,28 +13,31 @@ public class VariableBlock : SemanticBlock, IPointerEnterHandler, IPointerExitHa
     // inspector
     public VariableType VariableType { get { return (VariableType)blockType; } }
     [SerializeField]
-    string variableName;
-    public string VariableName { get { return variableName; } set { variableName = value; blockTitle.text = value; } }
-
-    bool pointerIsInObject = false;
+    char variableName;
+    public char VariableName { get { return variableName; } set { variableName = value; blockTitle.text = value.ToString(); } }
 
     public override string ToString()
     {
-        return VariableName;
+        return VariableName.ToString();
     }
 
-    public void Update()
+    void Update()
     {
-        if (pointerIsInObject)
+        if (PointerIsInObject)
         {
             float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-            if (scrollInput > 0f || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.DownArrow))
+            if (scrollInput > 0f || Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.DownArrow))
             {
-                VariableName = GetPreviousSymbol(VariableName[0]).ToString();
+                VariableName = GetPreviousSymbol(VariableName);
             }
-            else if (scrollInput < 0f || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.UpArrow))
+            else if (scrollInput < 0f || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.UpArrow))
             {
-                VariableName = GetNextSymbol(VariableName[0]).ToString();
+                VariableName = GetNextSymbol(VariableName);
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                Destroy(gameObject);
             }
 
         }
@@ -49,8 +52,6 @@ public class VariableBlock : SemanticBlock, IPointerEnterHandler, IPointerExitHa
     {
         SetBlockType((int)operation);
     }
-
-
 
     char GetNextSymbol(char c)
     {
@@ -130,22 +131,6 @@ public class VariableBlock : SemanticBlock, IPointerEnterHandler, IPointerExitHa
         else
         {
             return c;
-        }
-    }
-
-    public new void OnPointerEnter(PointerEventData eventData)
-    {
-        if(eventData.pointerEnter)
-        {
-            pointerIsInObject = true;
-        }
-    }
-
-    public new void OnPointerExit(PointerEventData eventData)
-    {
-        if (eventData.pointerEnter)
-        {
-            pointerIsInObject = false;
         }
     }
 }

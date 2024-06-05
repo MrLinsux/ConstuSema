@@ -11,8 +11,9 @@ public class VariableBlockDeck : MonoBehaviour
     char variableBlockName = 'A';
     [SerializeField]
     VariableType variableType = VariableType.Variable;
+
     // greek symbols from 945 to 970
-    private void Start()
+    private void Awake()
     {
         GetComponentInChildren<TMP_Text>().text = variableBlockName.ToString();
     }
@@ -26,7 +27,8 @@ public class VariableBlockDeck : MonoBehaviour
                 Quaternion.identity, 
                 GameObject.Find("Table").transform
                 ).GetComponent<VariableBlock>();
-            _block.VariableName = variableBlockName.ToString();
+
+            _block.VariableName = variableBlockName;
             _block.SetBlockType(variableType);
         }
         else
