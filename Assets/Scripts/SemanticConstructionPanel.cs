@@ -57,8 +57,16 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
                 Where(e => 
                     (e is VariableBlock) && 
                     e.GetComponent<VariableBlock>().VariableType == VariableType.Variable
-                ).ToArray();
-            int argumentsNum = arguments.Length;
+                ).ToList();
+            for(int i = 0; i < arguments.Count; i++)
+            {
+                if(arguments.Count(e => e.ToString() == arguments[i].ToString()) > 1)
+                {
+                    arguments.RemoveAt(i--);
+                }
+            }
+
+            int argumentsNum = arguments.Count;
 
             string[] argsNames = new string[argumentsNum];
 
