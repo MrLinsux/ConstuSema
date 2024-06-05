@@ -4,31 +4,33 @@ using TMPro;
 using UnityEngine;
 using static TotalBlockData;
 
-public enum Operation { Plus, Minus, Multiply, Division }
+public enum OperationsType { Plus, Minus, Multiply, Division }
 
 public class OperationBlock : SemanticBlock
 {
-    [SerializeField]
-    Operation operaion;
-    public Operation Operation { get { return operaion; } }
+    public OperationsType Operation { get { return (OperationsType)blockType; } }
 
     // system
     string[] operationTitles = new string[] { "+", "-", "×", "÷" };
     string operatorsAsChar = "+-*/";
 
-    private void Start()
-    {
-        Init(Operation);
-    }
-
-    public void Init(Operation operation)
-    {
-        this.operaion = operation;
-        blockTitle.text = operationTitles[(int)operation];
-    }
-
     public override string ToString()
     {
-        return $"({arguments[0]}){operatorsAsChar[(int)operaion]}({arguments[1]})";
+        if (Operation == OperationsType.Minus && arguments.Length == 1)
+        {
+            return $"{operatorsAsChar[blockType]}{arguments[0]}";
+        }
+        return $"({arguments[0]}){operatorsAsChar[blockType]}({arguments[1]})";
+    }
+
+    public override void SetBlockType(int blockTypeNumber)
+    {
+        blockType = blockTypeNumber;
+        blockTitle.text = operationTitles[blockType];
+    }
+
+    public void SetBlockType(OperationsType operation)
+    {
+        SetBlockType((int)operation);
     }
 }

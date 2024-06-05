@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using static TotalBlockData;
 
-public enum Functions
+public enum FunctionsType
 { 
     SIN, COS, TAN, CTAN, ARCSIN, ARCCOS, ARCTAN, ARCCTAN, ABS, LN, // function with one argument
     LOG, POW                                                       // functions with two arguments
@@ -15,24 +16,37 @@ public class FuctionBlock : SemanticBlock
     const string asChar = "!|&^";  // TODO: define unique symbol for each function
 
     [SerializeField]
-    Functions function;
-    public Functions Function {  get { return function; } }
+    FunctionsType function;
+    public FunctionsType Function {  get { return function; } }
 
     public override string ToString()
     {
-        if(function <= Functions.LN)
+        if(function <= FunctionsType.LN)
         {
-            return asChar[(int)function]+arguments[0].ToString();
+            return asChar[blockType]+arguments[0].ToString();
         }
         else
         {
-            return arguments[0].ToString() + asChar[(int)function] + arguments[1].ToString();
+            return arguments[0].ToString() + asChar[blockType] + arguments[1].ToString();
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public override void SetBlockType(int blockTypeNumber)
     {
-        blockTitle.text = functionTitles[(int)function];
+        blockType = blockTypeNumber;
+        blockTitle.text = functionTitles[blockType];
+        if(blockType <= (int)FunctionsType.LN)
+        {
+            NumberOfPlaces = 1;
+        }
+        else
+        {
+            NumberOfPlaces = 2;
+        }
+    }
+
+    public void SetBlockType(OperationsType function)
+    {
+        SetBlockType((int)function);
     }
 }

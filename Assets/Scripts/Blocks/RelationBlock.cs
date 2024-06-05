@@ -5,31 +5,29 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static TotalBlockData;
 
-public enum Relation { Equal, NotEqual, Bigger, BiggerOrEqual, Less, LessOrEqual, Member, Subset }
+public enum RelationType { Equal, NotEqual, Bigger, BiggerOrEqual, Less, LessOrEqual, Member, Subset }
 
 public class RelationBlock : SemanticBlock
 {
-    [SerializeField]
-    Relation relation;
-    public Relation Relation { get { return relation; } }
+    public RelationType Relation { get { return (RelationType)blockType; } }
 
     // system
     string[] relationTitles = new string[] { "=", "≠", ">", "≥", "<", "≤", "∊", "⊂" };
     string asChar = "=≠>≥<≤∈⊂";
 
-    private void Start()
+    public override void SetBlockType(int blockTypeNumber)
     {
-        Init(Relation);
+        blockType = blockTypeNumber;
+        blockTitle.text = relationTitles[blockType];
     }
 
-    public void Init(Relation relation)
+    public void SetBlockType(RelationType operation)
     {
-        this.relation = relation;
-        blockTitle.text = relationTitles[(int)relation];
+        SetBlockType((int)operation);
     }
 
     public override string ToString()
     {
-        return $"({arguments[0]}{asChar[(int)relation]}{arguments[1]})";
+        return $"({arguments[0]}{asChar[blockType]}{arguments[1]})";
     }
 }

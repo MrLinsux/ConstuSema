@@ -17,7 +17,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     Transform BlockShadow { get { return GameObject.Find("BlockShadow").transform; } }
     [SerializeField]
     protected TMP_Text blockTitle;
-    public string BlockTitle { get { return blockTitle.text; } }
+    public string BlockTitle { get { return blockTitle.text; } protected set { blockTitle.text = value; } }
 
     public void SetBlockShadowActive(bool isActive)
     {
@@ -25,6 +25,10 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     }
 
     public abstract override string ToString();
+
+    public abstract void SetBlockType(int blockTypeNumber);
+    [SerializeField]
+    protected int blockType;
 
     public void SetActiveOutline(bool isActive)
     {

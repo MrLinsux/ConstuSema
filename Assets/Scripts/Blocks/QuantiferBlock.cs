@@ -2,27 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Quantifers { ANY, EXIST, UNIQUE }
+public enum QuantifersType { ANY, EXIST, UNIQUE }
 
 public class QuantiferBlock : SemanticBlock
 {
     string[] quantiferTitles = new string[] { "ANY", "EXIST", "UNIQUE" };
     string asChar = "∀∃∄";
 
-    [SerializeField]
-    Quantifers quantiferType;
-    public Quantifers QuantiferType { get { return quantiferType; } }
+    public QuantifersType QuantiferType { get { return (QuantifersType)blockType; } }
 
     private void Start()
     {
         blockTitle.text = quantiferTitles[(int)QuantiferType];
     }
 
+    public override void SetBlockType(int blockTypeNumber)
+    {
+        blockType = blockTypeNumber;
+        blockTitle.text = quantiferTitles[blockType];
+    }
+
+    public void SetBlockType(QuantifersType operation)
+    {
+        SetBlockType((int)operation);
+    }
+
     public override string ToString()
     {
         if(arguments.Length == NumberOfPlaces)
         {
-            return asChar[(int)quantiferType] + arguments[0].ToString();
+            return asChar[blockType] + arguments[0].ToString();
         }
         else
         {

@@ -14,7 +14,7 @@ public class BlockDeck : MonoBehaviour
     {
         if (block is LogicGateBlock)
         {
-            ((LogicGateBlock)block).Init(blockType);
+            ((LogicGateBlock)block).SetBlockType(blockType);
             GetComponentInChildren<TMP_Text>().text = block.BlockTitle;
         }
     }
@@ -31,7 +31,7 @@ public class BlockDeck : MonoBehaviour
 
             if (_block is LogicGateBlock)
             {
-                ((LogicGateBlock)_block).Init(blockType);
+                ((LogicGateBlock)_block).SetBlockType(blockType);
             }
 
         }

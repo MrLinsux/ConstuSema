@@ -11,25 +11,12 @@ public enum VariableType { Variable, Constatnt, Set }
 public class VariableBlock : SemanticBlock, IPointerEnterHandler, IPointerExitHandler
 {
     // inspector
-    [SerializeField]
-    VariableType variableType;
-    public VariableType VariableType { get { return variableType; } }
+    public VariableType VariableType { get { return (VariableType)blockType; } }
     [SerializeField]
     string variableName;
     public string VariableName { get { return variableName; } set { variableName = value; blockTitle.text = value; } }
 
     bool pointerIsInObject = false;
-
-    private void Start()
-    {
-        Init(VariableType);
-    }
-
-    public void Init(VariableType type)
-    {
-        variableType = type;
-        blockTitle.text = VariableName;
-    }
 
     public override string ToString()
     {
@@ -41,17 +28,29 @@ public class VariableBlock : SemanticBlock, IPointerEnterHandler, IPointerExitHa
         if (pointerIsInObject)
         {
             float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-            if (scrollInput > 0f)
+            if (scrollInput > 0f || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.DownArrow))
             {
                 VariableName = GetPreviousSymbol(VariableName[0]).ToString();
             }
-            else if (scrollInput < 0f)
+            else if (scrollInput < 0f || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.UpArrow))
             {
                 VariableName = GetNextSymbol(VariableName[0]).ToString();
             }
 
         }
     }
+
+    public override void SetBlockType(int blockTypeNumber)
+    {
+        blockType = blockTypeNumber;
+    }
+
+    public void SetBlockType(VariableType operation)
+    {
+        SetBlockType((int)operation);
+    }
+
+
 
     char GetNextSymbol(char c)
     {

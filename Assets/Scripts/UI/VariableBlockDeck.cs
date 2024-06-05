@@ -27,7 +27,7 @@ public class VariableBlockDeck : MonoBehaviour
                 GameObject.Find("Table").transform
                 ).GetComponent<VariableBlock>();
             _block.VariableName = variableBlockName.ToString();
-            _block.Init(variableType);
+            _block.SetBlockType(variableType);
         }
         else
             Debug.LogWarning("Block is null");

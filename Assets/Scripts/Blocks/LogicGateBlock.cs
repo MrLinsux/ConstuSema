@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum LogicGates { NOT, OR, AND }
+public enum LogicTypes { NOT, OR, AND }
 
 public class LogicGateBlock : SemanticBlock
 {
-    [SerializeField]
-    LogicGates logicGate;
-    public LogicGates LogicGate { get { return logicGate; } }
+    public LogicTypes LogicGate { get { return (LogicTypes)blockType; } }
 
     // system
     string[] logicGatesTitles = new string[] { "¬", "∨", "∧" };
@@ -17,24 +15,14 @@ public class LogicGateBlock : SemanticBlock
 
     private void Awake()
     {
-        SetBlockType(logicGate);
+        SetBlockType(blockType);
     }
 
-    public void Init(LogicGates logicGate)
+    public override void SetBlockType(int blockTypeNumber)
     {
-        SetBlockType(logicGate);
-    }
-
-    public void Init(int logicGate)
-    {
-        SetBlockType((LogicGates)logicGate);
-    }
-
-    public void SetBlockType(LogicGates gateType)
-    {
-        logicGate = gateType;
-        blockTitle.text = logicGatesTitles[(int)gateType];
-        switch ((int)gateType)
+        blockType = blockTypeNumber;
+        BlockTitle = logicGatesTitles[blockType];
+        switch (blockType)
         {
             case 0:
                 NumberOfPlaces = 1;
@@ -52,13 +40,13 @@ public class LogicGateBlock : SemanticBlock
 
     public override string ToString()
     {
-        if(logicGate == LogicGates.NOT)
+        if(LogicGate == LogicTypes.NOT)
         {
             return $"(!{arguments[0]})";
         }
         else
         {
-            return $"({arguments[0]}{asChar[(int)logicGate]}{arguments[1]})";
+            return $"({arguments[0]}{asChar[blockType]}{arguments[1]})";
         }
     }
 }
