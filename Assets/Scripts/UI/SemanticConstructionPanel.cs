@@ -11,6 +11,8 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 {
     [SerializeField]
     GameObject resultPanel;
+    [SerializeField]
+    GameObject textHint;
 
     string GetBinarySet(int dec, int n)
     {
@@ -118,6 +120,11 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         resultPanel.SetActive(false);
     }
 
+    void SetActiveHint(bool isActive)
+    {
+        textHint.SetActive(isActive);
+    }
+
 
     // movement
     public void OnDrop(PointerEventData eventData)
@@ -144,6 +151,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             semanticBlock.SetBlockShadowActive(true);
             semanticBlock.SetBlockShadowForm();
             semanticBlock.DefaultShadowParent = transform;
+            SetActiveHint(false);
         }
     }
 
@@ -160,6 +168,10 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         {
             semanticBlock.SetBlockShadowActive(false);
             semanticBlock.DefaultShadowParent = semanticBlock.DefaultParent;
+            if(transform.GetComponentsInChildren<SemanticBlock>().Length == 0)
+            {
+                SetActiveHint(true);
+            }
         }
     }
 }
