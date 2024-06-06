@@ -62,6 +62,11 @@ public class MainMenuPanel : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
+
     public void LoadTest()
     {
         // with dialog
