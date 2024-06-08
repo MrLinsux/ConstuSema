@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -13,7 +13,7 @@ public enum FunctionsType
 public class FuctionBlock : SemanticBlock
 {
     string[] functionTitles = new string[] { "SIN", "COS", "TAN", "CTAN", "ARCSIN", "ARCCOS", "ARCTAN", "ARCCTAN", "ABS", "POW", "LOG", "LN" };
-    const string asChar = "!|&^";  // TODO: define unique symbol for each function
+    public const string asChar = "⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄⋆⋇";
 
     [SerializeField]
     FunctionsType function;

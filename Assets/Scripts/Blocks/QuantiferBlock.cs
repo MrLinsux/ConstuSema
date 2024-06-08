@@ -6,7 +6,7 @@ public enum QuantifersType { ANY, EXIST, UNIQUE }
 
 public class QuantiferBlock : SemanticBlock
 {
-    string[] quantiferTitles = new string[] { "ANY", "EXIST", "UNIQUE" };
+    string[] quantiferTitles = new string[] { "∀", "∃", "∄" };
     string asChar = "∀∃∄";
 
     public QuantifersType QuantiferType { get { return (QuantifersType)blockType; } }

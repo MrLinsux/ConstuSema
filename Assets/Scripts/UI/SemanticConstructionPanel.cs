@@ -12,6 +12,8 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
     [SerializeField]
     GameObject resultPanel;
     [SerializeField]
+    TMP_Text resultText;
+    [SerializeField]
     GameObject textHint;
 
     string GetBinarySet(int dec, int n)
@@ -108,7 +110,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             if (resultPanel)
             {
                 resultPanel.SetActive(true);
-                resultPanel.GetComponentInChildren<TMP_Text>().text = res;
+                resultText.text = res;
             }
             return res;
         }

@@ -16,6 +16,12 @@ public class VariableBlock : SemanticBlock, IPointerEnterHandler, IPointerExitHa
     char variableName;
     public char VariableName { get { return variableName; } set { variableName = value; blockTitle.text = value.ToString(); } }
 
+    private void Start()
+    {
+        SetBlockType(VariableType);
+        blockTitle.text = variableName.ToString();
+    }
+
     public override string ToString()
     {
         return VariableName.ToString();

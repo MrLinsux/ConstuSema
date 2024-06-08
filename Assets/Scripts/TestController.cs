@@ -15,6 +15,8 @@ public class TestController : MonoBehaviour
     GameObject semanticConstruction;
     [SerializeField]
     GameObject resultPanel;
+    [SerializeField]
+    TMP_Text resultText;
 
     List<GameObject> tables = new List<GameObject>();
     List<GameObject> semanticConstructions = new List<GameObject>();
@@ -58,7 +60,7 @@ public class TestController : MonoBehaviour
 
     public void FinishTest()
     {
-        string res = "Результат тестирования:\n";
+        string res = "";
         for(int i = 0; i < questions.Length; i++)
         {
             var answer = semanticConstructions[i].GetComponent<SemanticConstructionPanel>().CheckConstruction(false);
@@ -67,7 +69,7 @@ public class TestController : MonoBehaviour
         }
         ClearTest();
         resultPanel.SetActive(true);
-        resultPanel.GetComponentInChildren<TMP_Text>().text = res;
+        resultText.text = res;
     }
 
     public void ReturnToMainMenu()

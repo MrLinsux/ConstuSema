@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 public class PolishNotation
@@ -118,6 +118,12 @@ public class PolishNotation
                     case '|':
                         res = Math.Min(b + a, 1);
                         break;
+                    case '⋆':   // log a with base b
+                        res = (float)Math.Log(b, a);
+                        break;
+                    case '⋇':   // pow
+                        res = (float)Math.Pow(a, b);
+                        break;
                 }
                 stack.Push((float)res);
             }
@@ -129,6 +135,39 @@ public class PolishNotation
                 {
                     case '!':
                         res = 1 - a;
+                        break;
+                    case '⊲':   // sin
+                        res = (float)Math.Sin(a);
+                        break;
+                    case '⊳':   // cos
+                        res = (float)Math.Cos(a);
+                        break;
+                    case '⊴':   // tan
+                        res = (float)Math.Tan(a);
+                        break;
+                    case '⊵':   // ctan
+                        res = 1/(float)Math.Tan(a);
+                        break;
+                    case '⊶':   // arcsin
+                        res = (float)Math.Asin(a);
+                        break;
+                    case '⊷':   // arccos
+                        res = (float)Math.Acos(a);
+                        break;
+                    case '⊸':   // arctan
+                        res = (float)Math.Atan(a);
+                        break;
+                    case '⊹':   // arcctan
+                        res = (float)Math.Atan(1/a);
+                        break;
+                    case '⊺':   // abs
+                        res = (float)Math.Abs(a);
+                        break;
+                    case '⋄':   // ln
+                        res = (float)Math.Log(a);
+                        break;
+                    case '∼':   // ln
+                        res = (float)Math.Log(a);
                         break;
                 }
                 stack.Push((float)res);
@@ -148,7 +187,7 @@ public class PolishNotation
     }
     static bool IsOperator(char c)
     {
-        if (("+-/*()&|!".IndexOf(c) != -1))
+        if (("+-/*()&|!⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄⋆⋇∼".IndexOf(c) != -1))
         {
             return true;
         }
@@ -157,7 +196,7 @@ public class PolishNotation
 
     static bool IsBinaryOperator(char c)
     {
-        if (("+-/*()&|".IndexOf(c) != -1))
+        if (("+-/*()&|⋆⋇".IndexOf(c) != -1))
         {
             return true;
         }
@@ -166,7 +205,7 @@ public class PolishNotation
 
     static bool IsMonoOperator(char c)
     {
-        if (("!".IndexOf(c) != -1))
+        if (("!⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄∼".IndexOf(c) != -1))
         {
             return true;
         }
