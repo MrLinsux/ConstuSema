@@ -95,6 +95,7 @@ public class PolishNotation
             }
             else if (IsBinaryOperator(expretion[i]))
             {
+                // a oper b
                 float a = stack.Pop();
                 float b = stack.Pop();
 
@@ -112,11 +113,29 @@ public class PolishNotation
                     case '/':
                         res = b / a;
                         break;
-                    case '&':
+                    case '∧':
                         res = b * a;
                         break;
-                    case '|':
+                    case '∨':
                         res = Math.Min(b + a, 1);
+                        break;
+                    case '⊕':   // XOR
+                        res = (a + b) % 2;
+                        break;
+                    case '→':   // IMPLICATION
+                        res = (a==0 && b==1) ? 0 : 1;
+                        break;
+                    case '↔':   // EQUAL
+                        res = 1 - (a + b) % 2;
+                        break;
+                    case '↓':   // PIRS
+                        res = 1 - Math.Min(b + a, 1);
+                        break;
+                    case '|':   // CHEFF
+                        res = 1 - b * a;
+                        break;
+                    case '∆':   // TABOO
+                        res = (a == 0 && b == 1) ? 1 : 0;
                         break;
                     case '⋆':   // log a with base b
                         res = (float)Math.Log(b, a);
@@ -133,7 +152,7 @@ public class PolishNotation
 
                 switch (expretion[i])
                 {
-                    case '!':
+                    case '¬':
                         res = 1 - a;
                         break;
                     case '⊲':   // sin
@@ -187,7 +206,7 @@ public class PolishNotation
     }
     static bool IsOperator(char c)
     {
-        if (("+-/*()&|!⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄⋆⋇∼".IndexOf(c) != -1))
+        if (("+-/*()&|!⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄⋆⋇∼¬∨∧⊕→↔↓|∆".IndexOf(c) != -1))
         {
             return true;
         }
@@ -196,7 +215,7 @@ public class PolishNotation
 
     static bool IsBinaryOperator(char c)
     {
-        if (("+-/*()&|⋆⋇".IndexOf(c) != -1))
+        if (("+-/*()⋆⋇∨∧⊕→↔↓|∆".IndexOf(c) != -1))
         {
             return true;
         }
@@ -205,7 +224,7 @@ public class PolishNotation
 
     static bool IsMonoOperator(char c)
     {
-        if (("!⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄∼".IndexOf(c) != -1))
+        if (("⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄∼¬".IndexOf(c) != -1))
         {
             return true;
         }

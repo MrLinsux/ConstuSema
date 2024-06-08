@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum LogicTypes { NOT, OR, AND }
+public enum LogicTypes { NOT, OR, AND, XOR, IMPLICATION, EQUAL, PIRS, SHEF, TABOO }
 
 public class LogicGateBlock : SemanticBlock
 {
     public LogicTypes LogicGate { get { return (LogicTypes)blockType; } }
 
     // system
-    string[] logicGatesTitles = new string[] { "¬", "∨", "∧" };
-    string asChar = "!|&";
+    static string[] logicGatesTitles = new string[] { "¬", "∨", "∧", "⊕", "→", "↔", "↓", "|", "∆" };
+    static string asChar = "¬∨∧⊕→↔↓|∆";
 
     private void Awake()
     {
@@ -22,20 +22,15 @@ public class LogicGateBlock : SemanticBlock
     {
         blockType = blockTypeNumber;
         BlockTitle = logicGatesTitles[blockType];
-        switch (blockType)
+        if (blockType == 0)
         {
-            case 0:
-                NumberOfPlaces = 1;
-                break;
-            case 1:
-                NumberOfPlaces = 2;
-                break;
-            case 2:
-                NumberOfPlaces = 2;
-                break;
-            default:
-                throw new System.Exception("Unknown logic gate type");
+            NumberOfPlaces = 1;
         }
+        else
+        {
+            NumberOfPlaces = 2;
+        }
+
     }
 
     public override string ToString()
