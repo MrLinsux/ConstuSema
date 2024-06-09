@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8104348038703947519, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: m_Name
-      value: AND_BlockDeckButton (4)
+      value: PIRS_BlockDeckButton (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1608,7 +1608,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8104348038703947519, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: m_Name
-      value: AND_BlockDeckButton (3)
+      value: EQUAL_BlockDeckButton (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2042,7 +2042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8104348038703947519, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: m_Name
-      value: AND_BlockDeckButton (2)
+      value: IMP_BlockDeckButton (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2148,7 +2148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8104348038703947519, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: m_Name
-      value: AND_BlockDeckButton (6)
+      value: TABOO_BlockDeckButton (6)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3552,7 +3552,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 36, y: 0, z: 0, w: 0}
+  m_margin: {x: 148.45451, y: 0, z: 133.14455, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3991,7 +3991,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8104348038703947519, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: m_Name
-      value: AND_BlockDeckButton (5)
+      value: SHEF_BlockDeckButton (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4172,7 +4172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8104348038703947519, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: m_Name
-      value: AND_BlockDeckButton (1)
+      value: XOR_BlockDeckButton (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
