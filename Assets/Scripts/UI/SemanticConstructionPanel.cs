@@ -57,7 +57,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             string res = string.Empty;
 
             Debug.Log(construction);
-            var arguments = transform.GetComponentsInChildren<SemanticBlock>().
+            var arguments = transform.GetComponentsInChildren<SemanticBlock>(true).
                 Where(e => 
                     (e is VariableBlock) && 
                     e.GetComponent<VariableBlock>().VariableType == VariableType.Variable

@@ -47,7 +47,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     int CurrentPlacesOccupied { get { return arguments.Length; } }
 
     // semantic params
-    protected SemanticBlock[] arguments { get { return transform.GetComponentsInChildren<SemanticBlock>().Where(e => e.transform.parent == transform).ToArray(); } }
+    protected SemanticBlock[] arguments { get { return transform.GetComponentsInChildren<SemanticBlock>(true).Where(e => e.transform.parent == transform).ToArray(); } }
     protected object[] avaliableInputTypes;
 
     // movement
