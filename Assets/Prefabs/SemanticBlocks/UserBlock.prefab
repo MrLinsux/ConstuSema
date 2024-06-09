@@ -600,7 +600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter Block Name...
+  m_text: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a0b5e5e2533145244a7540c7d6951337, type: 2}
   m_sharedMaterial: {fileID: -5411639902548028339, guid: a0b5e5e2533145244a7540c7d6951337, type: 2}
@@ -932,8 +932,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -20.31, y: 11.369997}
-  m_SizeDelta: {x: 40.63, y: 22.74}
+  m_AnchoredPosition: {x: -14.6061, y: 11.369997}
+  m_SizeDelta: {x: 29.2221, y: 22.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4055245995582907031
 CanvasRenderer:
@@ -1166,7 +1166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Save
+  m_text: "\u041E\u041A"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a0b5e5e2533145244a7540c7d6951337, type: 2}
   m_sharedMaterial: {fileID: -5411639902548028339, guid: a0b5e5e2533145244a7540c7d6951337, type: 2}
