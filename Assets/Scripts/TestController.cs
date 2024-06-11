@@ -120,7 +120,7 @@ public class TestController : MonoBehaviour
 public class Question
 {
     string task;                // task title
-    public string Task {  get { return task; } }
+    public string Task {  get { return task; } set { task = value; } }
     string booleanAnswer;       // vector of boolean function
     public string BooleanAnswer { get { return booleanAnswer; } }
 
@@ -132,5 +132,10 @@ public class Question
     public Question(string task, string booleanAnswer)
     {
         this.task = task; this.booleanAnswer = booleanAnswer;
+    }
+
+    public Question()
+    {
+        task = ""; booleanAnswer = "";
     }
 }

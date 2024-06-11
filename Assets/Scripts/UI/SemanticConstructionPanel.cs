@@ -84,7 +84,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
                 }
                 if (fullTable)
                 {
-                    res += "Vec\n";
+                    res += "<i>f</i>\n";
                 }
 
             string calConstruction = construction;
