@@ -5,6 +5,9 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using Unity.Mathematics;
 
 public class TestCreatingController : MonoBehaviour
 {
@@ -20,6 +23,8 @@ public class TestCreatingController : MonoBehaviour
     TMP_Text nextQuestionButtonText;
     [SerializeField]
     GameObject removeQuestionButton;
+    [SerializeField]
+    string standartFileName = "MyFileOfTest";
 
     List<GameObject> tables = new List<GameObject>();
     List<GameObject> semanticConstructions = new List<GameObject>();
@@ -29,14 +34,37 @@ public class TestCreatingController : MonoBehaviour
     Question CurrentQuestion { get { return questions[currentQuestionNumber]; } }
     int MaxQuestionsNumber { get { return questions.Count; } }
 
+    private void Start()
+    {
+        questions = new List<Question>();
+
+        CreateNewQuestions();   
+
+        SetQuestionWithIndex(0);
+    }
+
     public void SaveTestFile()
     {
-        string res = "";
         for (int i = 0; i < questions.Count; i++)
         {
-            var answer = semanticConstructions[i].GetComponent<SemanticConstructionPanel>().CheckConstruction(false);
+            questions[i].Answer = semanticConstructions[i].GetComponent<SemanticConstructionPanel>().CheckConstruction(false);
+        }
 
-            res += $"Вопрос {i.ToString()} : ответ {(questions[i].AnswerIsCorrect(answer) ? "верный" : "неверный")}\n";
+        int standartFileNameNumber = -1;
+
+        while (File.Exists(standartFileName + "(" + ++standartFileNameNumber + ")")) ;
+        string fileName = standartFileName;
+        if (standartFileNameNumber != 0)
+        {
+            fileName += "(" + standartFileNameNumber + ")";
+        }
+        fileName += "." + MainMenuPanel.fileOfTestFormat;
+
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+        {
+            formatter.Serialize(fs, questions);
         }
     }
 
@@ -94,11 +122,12 @@ public class TestCreatingController : MonoBehaviour
         if (currentQuestionNumber == MaxQuestionsNumber - 1)
         {
             CreateNewQuestions();
+            SetNextQuestion();
         }
         else if(currentQuestionNumber == MaxQuestionsNumber - 2)
         {
             SetQuestionWithIndex((currentQuestionNumber + 1) % MaxQuestionsNumber);
-            nextQuestionButtonText.text = "+";
+            nextQuestionButtonText.text = "Добавить";
         }
         else
         {
@@ -108,10 +137,16 @@ public class TestCreatingController : MonoBehaviour
     }
     public void SetPreviousQuestion()
     {
-        if (currentQuestionNumber - 1 < 0)
+        if (currentQuestionNumber < 1)
+        {
             SetQuestionWithIndex(MaxQuestionsNumber - 1);
+            nextQuestionButtonText.text = "Добавить";
+        }
         else
+        {
             SetQuestionWithIndex(currentQuestionNumber - 1);
+            nextQuestionButtonText.text = ">";
+        }
     }
 
     public void ReturnToMainMenu()

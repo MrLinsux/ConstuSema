@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static TotalBlockData;
 
 public enum OperationsType { Plus, Minus, Multiply, Division }
 

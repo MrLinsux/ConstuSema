@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -117,12 +118,14 @@ public class TestController : MonoBehaviour
     }
 }
 
+[Serializable]
 public class Question
 {
     string task;                // task title
     public string Task {  get { return task; } set { task = value; } }
-    string answer;       // vector of boolean function
-    public string BooleanAnswer { get { return answer; } }
+
+    string answer;       // stantartizated answer
+    public string Answer { get { return answer; } set { answer = value; } }
 
     public bool AnswerIsCorrect(string answer)
     {

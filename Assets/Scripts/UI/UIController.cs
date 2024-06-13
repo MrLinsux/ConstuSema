@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour
 
     public void LoadCreateTestScene()
     {
-
+        SceneManager.LoadScene(3);
     }
 
     public void LoadStartTestScene()

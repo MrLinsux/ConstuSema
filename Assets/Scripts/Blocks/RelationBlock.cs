@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static TotalBlockData;
 
 public enum RelationType { Equal, NotEqual, Bigger, BiggerOrEqual, Less, LessOrEqual, Member, Subset }
 

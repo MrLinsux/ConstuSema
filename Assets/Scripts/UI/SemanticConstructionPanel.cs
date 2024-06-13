@@ -73,35 +73,40 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
             int argumentsNum = arguments.Count;
 
-            string[] argsNames = new string[argumentsNum];
+            string argsNames = "";
 
             for (int i = 0; i < argumentsNum; i++)
             {
-                argsNames[i] = arguments[i].ToString();
+                argsNames += arguments[i].ToString();
             }
 
-            res += BuildBooleanTableByConstruction(construction, argsNames, fullTable);
+            if (IsBooleanFunction())
+                res += BuildBooleanTableByConstruction(construction, argsNames, fullTable);
+            else if (IsPredicate())
+                res += $"[{argsNames}]{construction}";
+
+            return res;
         }
         return null;
     }
 
     public bool IsBooleanFunction()
     {
-        return transform.GetComponentsInChildren<SemanticBlock>().All(e => (e is VariableBlock) || (e is LogicGateBlock));
+        return transform.GetComponentsInChildren<SemanticBlock>(true).All(e => (e is VariableBlock) || (e is LogicGateBlock) || (e is UserBlock));
     }
 
     public bool IsPredicate()
     {
-        return transform.GetComponentsInChildren<SemanticBlock>().All(e => (e is VariableBlock) || (e is LogicGateBlock) || (e is QuantiferBlock));
+        return transform.GetComponentsInChildren<SemanticBlock>(true).All(e => (e is VariableBlock) || (e is LogicGateBlock) || (e is QuantiferBlock) || (e is UserBlock));
     }
 
-    string BuildBooleanTableByConstruction(string construction, string[] argsNames, bool fullTable)
+    string BuildBooleanTableByConstruction(string construction, string argsNames, bool fullTable)
     {
         int argumentsNum = argsNames.Length;
 
         string calConstruction = construction;
 
-        string res = "";
+        string res = string.Empty;
 
         if (fullTable)
         {
@@ -118,7 +123,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
             for (int i = 0; i < argumentsNum; ++i)
             {
-                calConstruction = calConstruction.Replace(argsNames[i], valsSet[i].ToString());
+                calConstruction = calConstruction.Replace(argsNames[i], valsSet[i]);
             }
 
             if (fullTable)

@@ -16,6 +16,7 @@ public class MainMenuPanel : MonoBehaviour
     public string testFileSrc = @"C:\\";
     [SerializeField]
     Button startTestButton;
+    public const string fileOfTestFormat = "mytl";
 
     string GetTestName(string src)
     {
@@ -48,7 +49,7 @@ public class MainMenuPanel : MonoBehaviour
         // with dialog
         OpenFileName openFileName = new OpenFileName();
         openFileName.structSize = Marshal.SizeOf(openFileName);
-        openFileName.filter = ".txt\0*.txt\0";
+        openFileName.filter = $".{fileOfTestFormat}\0*.{fileOfTestFormat}\0";
         openFileName.file = new string(new char[256]);
         openFileName.maxFile = openFileName.file.Length;
         openFileName.fileTitle = new string(new char[64]);
@@ -56,7 +57,7 @@ public class MainMenuPanel : MonoBehaviour
         openFileName.initialDir = Application.streamingAssetsPath.Replace('/', '\\');
         openFileName.title = "Выберите файл теста";
         openFileName.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000008;
-        openFileName.defExt = "txt";
+        openFileName.defExt = fileOfTestFormat;
 
         LocalDialog.GetOFN(openFileName);
 
