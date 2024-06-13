@@ -36,7 +36,7 @@ public class TestCreatingController : MonoBehaviour
         {
             var answer = semanticConstructions[i].GetComponent<SemanticConstructionPanel>().CheckConstruction(false);
 
-            res += $"Вопрос {i.ToString()} : ответ {(questions[i].BooleanAnswerIsCorrect(answer) ? "верный" : "неверный")}\n";
+            res += $"Вопрос {i.ToString()} : ответ {(questions[i].AnswerIsCorrect(answer) ? "верный" : "неверный")}\n";
         }
     }
 

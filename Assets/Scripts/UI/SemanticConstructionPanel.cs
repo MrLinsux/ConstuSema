@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -74,47 +75,93 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
             string[] argsNames = new string[argumentsNum];
 
-                for (int i = 0; i < argumentsNum; i++)
-                {
-                    argsNames[i] = arguments[i].ToString();
-                    if (fullTable)
-                    {
-                        res += argsNames[i];
-                    }
-                }
-                if (fullTable)
-                {
-                    res += "<i>f</i>\n";
-                }
-
-            string calConstruction = construction;
-
-            for (int argValue = 0; argValue < Mathf.Pow(2, argsNames.Length); argValue++)
+            for (int i = 0; i < argumentsNum; i++)
             {
-                string valsSet = GetBinarySet(argValue, argumentsNum);
-
-                for (int i = 0; i < argumentsNum; ++i)
-                {
-                    calConstruction = calConstruction.Replace(argsNames[i].ToString(), valsSet[i].ToString());
-                }
-
-                if (fullTable)
-                    res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
-                else
-                    res += PolishNotation.Calculate(calConstruction).ToString();
-
-                calConstruction = construction;
+                argsNames[i] = arguments[i].ToString();
             }
 
-            Debug.Log(res);
-            if (resultPanel)
-            {
-                resultPanel.SetActive(true);
-                resultText.text = res;
-            }
-            return res;
+            res += BuildBooleanTableByConstruction(construction, argsNames, fullTable);
         }
         return null;
+    }
+
+    public bool IsBooleanFunction()
+    {
+        return transform.GetComponentsInChildren<SemanticBlock>().All(e => (e is VariableBlock) || (e is LogicGateBlock));
+    }
+
+    public bool IsPredicate()
+    {
+        return transform.GetComponentsInChildren<SemanticBlock>().All(e => (e is VariableBlock) || (e is LogicGateBlock) || (e is QuantiferBlock));
+    }
+
+    string BuildBooleanTableByConstruction(string construction, string[] argsNames, bool fullTable)
+    {
+        int argumentsNum = argsNames.Length;
+
+        string calConstruction = construction;
+
+        string res = "";
+
+        if (fullTable)
+        {
+            for (int i = 0; i < argumentsNum; i++)
+            {
+                res += argsNames[i];
+            }
+            res += "<i>f</i>\n";
+        }
+
+        for (int argValue = 0; argValue < Mathf.Pow(2, argsNames.Length); argValue++)
+        {
+            string valsSet = GetBinarySet(argValue, argumentsNum);
+
+            for (int i = 0; i < argumentsNum; ++i)
+            {
+                calConstruction = calConstruction.Replace(argsNames[i], valsSet[i].ToString());
+            }
+
+            if (fullTable)
+                res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
+            else
+                res += PolishNotation.Calculate(calConstruction).ToString();
+
+            calConstruction = construction;
+        }
+
+        Debug.Log(res);
+        if (resultPanel)
+        {
+            resultPanel.SetActive(true);
+            resultText.text = res;
+        }
+        return res;
+    }
+
+    public string GetVariablesNames(SemanticBlock construction)
+    {
+        var arguments = construction.GetComponentsInChildren<SemanticBlock>(true).
+            Where(e =>
+                (e is VariableBlock) &&
+                e.GetComponent<VariableBlock>().VariableType == VariableType.Variable
+            ).ToArray();
+
+        if (arguments != null && arguments.Length >= 1)
+        {
+            string argumentsNames = arguments[0].ToString();
+
+            for(int i = 1; i < arguments.Length; i++)
+            {
+                argumentsNames += arguments[i].ToString();
+            }
+
+            return argumentsNames;
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
     public void CloseResultPanel()

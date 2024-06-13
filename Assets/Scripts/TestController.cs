@@ -65,7 +65,7 @@ public class TestController : MonoBehaviour
         {
             var answer = semanticConstructions[i].GetComponent<SemanticConstructionPanel>().CheckConstruction(false);
 
-            res += $"Вопрос {i.ToString()} : ответ {(questions[i].BooleanAnswerIsCorrect(answer) ? "верный" : "неверный")}\n";
+            res += $"Вопрос {i.ToString()} : ответ {(questions[i].AnswerIsCorrect(answer) ? "верный" : "неверный")}\n";
         }
         ClearTest();
         resultPanel.SetActive(true);
@@ -121,21 +121,21 @@ public class Question
 {
     string task;                // task title
     public string Task {  get { return task; } set { task = value; } }
-    string booleanAnswer;       // vector of boolean function
-    public string BooleanAnswer { get { return booleanAnswer; } }
+    string answer;       // vector of boolean function
+    public string BooleanAnswer { get { return answer; } }
 
-    public bool BooleanAnswerIsCorrect(string answer)
+    public bool AnswerIsCorrect(string answer)
     {
-        return answer == booleanAnswer;
+        return answer == this.answer;
     }
 
-    public Question(string task, string booleanAnswer)
+    public Question(string task, string answer)
     {
-        this.task = task; this.booleanAnswer = booleanAnswer;
+        this.task = task; this.answer = answer;
     }
 
     public Question()
     {
-        task = ""; booleanAnswer = "";
+        task = ""; answer = "";
     }
 }
