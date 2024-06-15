@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 public class MainMenuPanel : MonoBehaviour
 {
-    public string testFileSrc = @"C:\\";
+    public static string testFileSrc = @"C:\\";
     [SerializeField]
     Button startTestButton;
     public const string fileOfTestFormat = "mytl";

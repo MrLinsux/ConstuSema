@@ -24,6 +24,7 @@ public class UIController : MonoBehaviour
 
     public void LoadStartTestScene()
     {
+        TestController.isEasyTest = false;
         SceneManager.LoadScene(2);
     }
 

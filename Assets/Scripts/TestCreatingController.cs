@@ -64,7 +64,7 @@ public class TestCreatingController : MonoBehaviour
 
         using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
         {
-            formatter.Serialize(fs, questions);
+            formatter.Serialize(fs, questions.ToArray());
         }
     }
 

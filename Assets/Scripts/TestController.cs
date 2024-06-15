@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TestController : MonoBehaviour
 {
-    public static bool isEasyTest = true;
+    public static bool isEasyTest = false;
 
     [SerializeField]
     TMP_Text taskPanel;
@@ -32,7 +34,8 @@ public class TestController : MonoBehaviour
         if(isEasyTest)
             questions = MakeTestQuestionSet();
         else
-            throw new System.NotImplementedException(); // not realesed
+            LoadTestFile();
+
         StartTest(questions);
     }
 
@@ -45,6 +48,16 @@ public class TestController : MonoBehaviour
         }
         tables.Clear();
         semanticConstructions.Clear();
+    }
+
+    void LoadTestFile()
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        using (FileStream fs = new FileStream(MainMenuPanel.testFileSrc, FileMode.OpenOrCreate))
+        {
+            questions = (Question[])formatter.Deserialize(fs);
+        }
     }
 
     void StartTest(Question[] questions)
