@@ -47,7 +47,7 @@ public class QuantiferBlock : SemanticBlock
         {
             return arguments.Any(e =>
             (e is RelationBlock) ||
-            ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+            ((e is VariableBlock) && e.BlockType < 2) ||
             (e is UserBlock));
         }
         catch

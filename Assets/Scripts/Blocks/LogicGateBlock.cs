@@ -53,7 +53,7 @@ public class LogicGateBlock : SemanticBlock
             return arguments.All(e =>
             ((e is QuantiferBlock) && (LogicGate == LogicTypes.NOT)) ||
             (e is LogicGateBlock) ||
-            ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+            ((e is VariableBlock) && e.BlockType < 2) ||
             (e is UserBlock));
         }
         catch

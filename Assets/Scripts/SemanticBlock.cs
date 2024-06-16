@@ -38,6 +38,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public abstract void SetBlockType(int blockTypeNumber);
     [SerializeField]
     protected int blockType;
+    public int BlockType { get { return blockType; } }
 
     // inspector
     [SerializeField]

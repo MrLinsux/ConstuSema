@@ -36,7 +36,7 @@ public class RelationBlock : SemanticBlock
         return arguments.All(e =>
         (e is FunctionBlock) ||
         (e is OperationBlock) ||
-        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+        ((e is VariableBlock) && e.BlockType < 2) ||
         (e is UserBlock));
     }
 }
