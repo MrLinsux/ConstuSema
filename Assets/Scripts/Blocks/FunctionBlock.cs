@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public enum FunctionsType
     LOG, POW                                                       // functions with two arguments
 }
 
-public class FuctionBlock : SemanticBlock
+public class FunctionBlock : SemanticBlock
 {
     string[] functionTitles = new string[] { "SIN", "COS", "TAN", "CTAN", "ARCSIN", "ARCCOS", "ARCTAN", "ARCCTAN", "ABS", "POW", "LOG", "LN" };
     public const string asChar = "⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄⋆⋇";
@@ -47,5 +48,14 @@ public class FuctionBlock : SemanticBlock
     public void SetBlockType(OperationsType function)
     {
         SetBlockType((int)function);
+    }
+
+    protected override bool CheckCorrectBlock()
+    {
+        return arguments.All(e =>
+        (e is FunctionBlock) ||
+        (e is OperationBlock) ||
+        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+        (e is UserBlock));
     }
 }

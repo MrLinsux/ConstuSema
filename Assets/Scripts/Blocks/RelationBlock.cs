@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,5 +29,14 @@ public class RelationBlock : SemanticBlock
     public override string ToString()
     {
         return $"({arguments[0]}{asChar[blockType]}{arguments[1]})";
+    }
+
+    protected override bool CheckCorrectBlock()
+    {
+        return arguments.All(e =>
+        (e is FunctionBlock) ||
+        (e is OperationBlock) ||
+        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+        (e is UserBlock));
     }
 }

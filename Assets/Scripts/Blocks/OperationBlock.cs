@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -31,5 +32,14 @@ public class OperationBlock : SemanticBlock
     public void SetBlockType(OperationsType operation)
     {
         SetBlockType((int)operation);
+    }
+
+    protected override bool CheckCorrectBlock()
+    {
+        return arguments.All(e =>
+        (e is FunctionBlock) ||
+        (e is OperationBlock) ||
+        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+        (e is UserBlock));
     }
 }

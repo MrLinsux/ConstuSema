@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -67,5 +68,10 @@ public class UserBlock : SemanticBlock
         inputNameField.text = BlockTitle;
         inputNameField.gameObject.SetActive(true);
         saveButton.SetActive(true);
+    }
+
+    protected override bool CheckCorrectBlock()
+    {
+        return true;
     }
 }

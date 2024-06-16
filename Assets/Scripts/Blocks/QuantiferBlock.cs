@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum QuantifersType { ANY, EXIST, UNIQUE }
@@ -37,5 +38,13 @@ public class QuantiferBlock : SemanticBlock
         {
             return null;
         }
+    }
+
+    protected override bool CheckCorrectBlock()
+    {
+        return arguments.All(e =>
+        (e is RelationBlock) ||
+        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+        (e is UserBlock));
     }
 }

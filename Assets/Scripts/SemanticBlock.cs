@@ -2,6 +2,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
@@ -26,16 +27,15 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         BlockShadow.GetComponent<Image>().enabled = isActive;
     }
 
+    bool IsTestScene { get { return SceneManager.GetActiveScene().buildIndex == 2; } }
+
+    protected abstract bool CheckCorrectBlock();
+
     public abstract override string ToString();
 
     public abstract void SetBlockType(int blockTypeNumber);
     [SerializeField]
     protected int blockType;
-
-    public void SetActiveOutline(bool isActive)
-    {
-        GetComponent<Outline>().enabled = isActive;
-    }
 
     // inspector
     [SerializeField]
@@ -45,6 +45,22 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
             numberOfPlaces = value;
         } }
     int CurrentPlacesOccupied { get { return arguments.Length; } }
+    bool AllPlacesOccepied { get { return NumberOfPlaces == CurrentPlacesOccupied; } }
+
+    [SerializeField]
+    Color standartOutlineColor = Color.white;
+    [SerializeField]
+    Color incorrectOutlineColor = Color.red;
+    void SetCorrectOutlineColor(bool isCorrect)
+    {
+        if(!IsTestScene)
+            GetComponent<Outline>().effectColor = isCorrect ? standartOutlineColor : incorrectOutlineColor;
+    }
+
+    void SetCorrectOutlineColor()
+    {
+        SetCorrectOutlineColor(CheckCorrectBlock() && AllPlacesOccepied);
+    }
 
     // semantic params
     protected SemanticBlock[] arguments { get { return transform.GetComponentsInChildren<SemanticBlock>(true).Where(e => e.transform.parent == transform).ToArray(); } }
@@ -70,6 +86,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public void OnBeginDrag(PointerEventData eventData)
     {
         offset = transform.position - MainCamera.ScreenToWorldPoint(eventData.position);
+        if(DefaultParent?.GetComponent<SemanticBlock>())
+            DefaultParent.GetComponent<SemanticBlock>().SetCorrectOutlineColor();
 
         DefaultParent = DefaultShadowParent = transform.parent;
         transform.SetParent(DefaultParent.parent);
@@ -107,6 +125,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.SetParent(DefaultParent);
+        if (DefaultParent?.GetComponent<SemanticBlock>())
+            DefaultParent.GetComponent<SemanticBlock>().SetCorrectOutlineColor();
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
         transform.SetSiblingIndex(BlockShadow.GetSiblingIndex());
@@ -145,7 +165,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         {
             semanticBlock.DefaultParent = transform;
         }
-        //SetActiveOutline(CurrentPlacesOccupied != NumberOfPlaces);
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -180,6 +200,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
             return;
         }
         SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
+
 
         if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
         {

@@ -114,7 +114,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             {
                 res += argsNames[i];
             }
-            res += "<i>f</i>\n";
+            res += "\t<i>f</i>\n";
         }
 
         for (int argValue = 0; argValue < Mathf.Pow(2, argsNames.Length); argValue++)
@@ -127,7 +127,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
             }
 
             if (fullTable)
-                res += $"{valsSet} {PolishNotation.Calculate(calConstruction)}\n";
+                res += $"{valsSet}\t{PolishNotation.Calculate(calConstruction)}\n";
             else
                 res += PolishNotation.Calculate(calConstruction).ToString();
 

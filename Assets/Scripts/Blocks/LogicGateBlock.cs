@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -43,5 +44,13 @@ public class LogicGateBlock : SemanticBlock
         {
             return $"({arguments[0]}{asChar[blockType]}{arguments[1]})";
         }
+    }
+
+    protected override bool CheckCorrectBlock()
+    {
+        return arguments.All(e =>
+        (e is LogicGateBlock) ||
+        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+        (e is UserBlock));
     }
 }
