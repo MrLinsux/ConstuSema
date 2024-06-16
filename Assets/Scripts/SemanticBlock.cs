@@ -29,6 +29,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
     bool IsTestScene { get { return SceneManager.GetActiveScene().buildIndex == 2; } }
 
+    public bool IsCorrectBlock { get { return CheckCorrectBlock() && AllPlacesOccepied; } }
+
     protected abstract bool CheckCorrectBlock();
 
     public abstract override string ToString();
@@ -44,8 +46,8 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         protected set { 
             numberOfPlaces = value;
         } }
-    int CurrentPlacesOccupied { get { return arguments.Length; } }
-    bool AllPlacesOccepied { get { return NumberOfPlaces == CurrentPlacesOccupied; } }
+    public int CurrentPlacesOccupied { get { return arguments.Length; } }
+    public bool AllPlacesOccepied { get { return NumberOfPlaces == CurrentPlacesOccupied; } }
 
     [SerializeField]
     Color standartOutlineColor = Color.white;
@@ -57,7 +59,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
             GetComponent<Outline>().effectColor = isCorrect ? standartOutlineColor : incorrectOutlineColor;
     }
 
-    void SetCorrectOutlineColor()
+    public void SetCorrectOutlineColor()
     {
         SetCorrectOutlineColor(CheckCorrectBlock() && AllPlacesOccepied);
     }

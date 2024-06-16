@@ -31,63 +31,76 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
     public void CheckConstruction()
     {
-        var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
-        if (mainBlock)
+        SemanticBlock[] inputedBlocks = transform.GetComponentsInChildren<SemanticBlock>().Where(e => e.transform.parent == transform).ToArray();
+        if (inputedBlocks.Length > 0)
         {
-            CheckConstruction(mainBlock.ToString(), true);
+            if (!inputedBlocks.All(e => e.GetComponentsInChildren<SemanticBlock>(true).All(e => e.IsCorrectBlock)))
+                return;
+
+            string construction = "";
+
+            for(int i = 0; i < inputedBlocks.Length; i++)
+            {
+                construction += inputedBlocks[i].ToString();
+            }
+
+            CheckConstruction(construction, true);
         }
     }
 
     public string CheckConstruction(bool fullTable)
     {
-        var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
-        if (mainBlock)
+        SemanticBlock[] inputedBlocks = transform.GetComponentsInChildren<SemanticBlock>().Where(e => e.transform.parent == transform).ToArray();
+        if (inputedBlocks.Length > 0)
         {
-            return CheckConstruction(mainBlock.ToString(), fullTable);
+            if (!inputedBlocks.All(e => e.GetComponentsInChildren<SemanticBlock>(true).All(e => e.IsCorrectBlock)))
+                return null;
+
+            string construction = "";
+
+            for (int i = 0; i < inputedBlocks.Length; i++)
+            {
+                construction += inputedBlocks[i].ToString();
+            }
+
+            return CheckConstruction(construction, fullTable);
         }
         return null;
     }
 
     public string CheckConstruction(string construction, bool fullTable)
     {
-        // get polish notation
-        // let there is only one block
-        var mainBlock = transform.GetComponentInChildren<SemanticBlock>();
-        if (mainBlock)
+        string res = string.Empty;
+
+        Debug.Log(construction);
+        var arguments = transform.GetComponentsInChildren<SemanticBlock>(true).
+            Where(e =>
+                (e is VariableBlock) &&
+                e.GetComponent<VariableBlock>().VariableType == VariableType.Variable
+            ).ToList();
+        for (int i = 0; i < arguments.Count; i++)
         {
-            string res = string.Empty;
-
-            Debug.Log(construction);
-            var arguments = transform.GetComponentsInChildren<SemanticBlock>(true).
-                Where(e => 
-                    (e is VariableBlock) && 
-                    e.GetComponent<VariableBlock>().VariableType == VariableType.Variable
-                ).ToList();
-            for(int i = 0; i < arguments.Count; i++)
+            if (arguments.Count(e => e.ToString() == arguments[i].ToString()) > 1)
             {
-                if(arguments.Count(e => e.ToString() == arguments[i].ToString()) > 1)
-                {
-                    arguments.RemoveAt(i--);
-                }
+                arguments.RemoveAt(i--);
             }
-
-            int argumentsNum = arguments.Count;
-
-            string argsNames = "";
-
-            for (int i = 0; i < argumentsNum; i++)
-            {
-                argsNames += arguments[i].ToString();
-            }
-
-            if (IsBooleanFunction())
-                res += BuildBooleanTableByConstruction(construction, argsNames, fullTable);
-            else if (IsPredicate())
-                res += $"[{argsNames}]{construction}";
-
-            return res;
         }
-        return null;
+
+        int argumentsNum = arguments.Count;
+
+        string argsNames = "";
+
+        for (int i = 0; i < argumentsNum; i++)
+        {
+            argsNames += arguments[i].ToString();
+        }
+
+        if (IsBooleanFunction())
+            res += BuildBooleanTableByConstruction(construction, argsNames, fullTable);
+        else if (IsPredicate())
+            res += $"[{argsNames}]{construction}";
+
+        return res;
     }
 
     public bool IsBooleanFunction()
