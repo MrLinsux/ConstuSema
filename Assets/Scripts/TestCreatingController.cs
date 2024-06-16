@@ -52,7 +52,7 @@ public class TestCreatingController : MonoBehaviour
 
         int standartFileNameNumber = -1;
 
-        while (File.Exists(standartFileName + "(" + ++standartFileNameNumber + ")")) ;
+        while (File.Exists(standartFileName + "(" + ++standartFileNameNumber + ")" + MainMenuPanel.fileOfTestFormat)) ;
         string fileName = standartFileName;
         if (standartFileNameNumber != 0)
         {

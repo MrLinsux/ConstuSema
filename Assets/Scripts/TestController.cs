@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 public class TestController : MonoBehaviour
 {
     public static bool isEasyTest = false;
+    [SerializeField]
+    bool inspectorIsEasyTest = true;
 
     [SerializeField]
     TMP_Text taskPanel;
@@ -31,7 +33,7 @@ public class TestController : MonoBehaviour
 
     private void Start()
     {
-        if(isEasyTest)
+        if(isEasyTest || inspectorIsEasyTest)
             questions = MakeTestQuestionSet();
         else
             LoadTestFile();
@@ -79,7 +81,57 @@ public class TestController : MonoBehaviour
         {
             var answer = semanticConstructions[i].GetComponent<SemanticConstructionPanel>().CheckConstruction(false);
 
-            res += $"Вопрос {i.ToString()} : ответ {(questions[i].AnswerIsCorrect(answer) ? "верный" : "неверный")}\n";
+            if (semanticConstructions[i].GetComponent<SemanticConstructionPanel>().IsBooleanFunction())
+            {
+                res += $"Р’РѕРїСЂРѕСЃ {i.ToString()} : РѕС‚РІРµС‚ {(questions[i].AnswerIsCorrect(answer) ? "РІРµСЂРЅС‹Р№" : "РЅРµРІРµСЂРЅС‹Р№")}\n";
+            }
+            else if (semanticConstructions[i].GetComponent<SemanticConstructionPanel>().IsPredicate())
+            {
+                string correctVariables = "";
+                int k = 0;
+                while (questions[i].Answer[k] != ']')
+                    correctVariables += questions[i].Answer[k++];
+
+                string correctConstruction = questions[i].Answer.Remove(0, correctVariables.Length + 1);
+
+                bool answerIsCorrect = true;
+
+                for(int j = 0; j < correctConstruction.Length; j++)
+                {
+                    string correctQuantifer;
+
+                    if (correctConstruction[j] == 'В¬')      // if negative
+                    {
+                        correctQuantifer =
+                            correctConstruction[j].ToString() +         // В¬
+                            correctConstruction[j + 1].ToString() +     // (
+                            correctConstruction[j + 2].ToString() +     // quantifer
+                            correctConstruction[j + 3].ToString() +     // var
+                            correctConstruction[j + 4].ToString();      // )
+
+                        if (answer.IndexOf(correctQuantifer) < 0)
+                        {
+                            answerIsCorrect = false;
+                            break;
+                        }
+
+                    }
+                    else if("в€Ђв€ѓв€„".IndexOf(correctConstruction[j]) >= 0)     // if quantifer
+                    {
+                        correctQuantifer =
+                            correctConstruction[j].ToString() +     // quantifer
+                            correctConstruction[j + 1].ToString();     // var
+
+                        if (answer.IndexOf(correctQuantifer) < 0)
+                        {
+                            answerIsCorrect = false;
+                            break;
+                        }
+                    }
+                }
+
+                res += $"Р’РѕРїСЂРѕСЃ {i.ToString()} : РѕС‚РІРµС‚ {(answerIsCorrect ? "РІРµСЂРЅС‹Р№" : "РЅРµРІРµСЂРЅС‹Р№")}\n";
+            }
         }
         ClearTest();
         resultPanel.SetActive(true);
@@ -94,12 +146,11 @@ public class TestController : MonoBehaviour
 
     Question[] MakeTestQuestionSet()
     {
-        var questions = new Question[5];
-        questions[0] = new Question("Соберите конъюнкцию.", "0001");
-        questions[1] = new Question("Соберите исключающее или (сложение по модулю 2).", "0110");
-        questions[2] = new Question("Соберите импликацию.", "1101");
-        questions[3] = new Question("Соберите функцию с вектором (1).", "1");
-        questions[4] = new Question("Соберите функцию с вектором (01010111).", "01010111");
+        var questions = new Question[4];
+        questions[0] = new Question("РЎРѕР±РµСЂРёС‚Рµ РєРѕРЅСЉСЋРЅРєС†РёСЋ.", "0001");
+        questions[1] = new Question("РЎРѕР±РµСЂРёС‚Рµ РёСЃРєР»СЋС‡Р°СЋС‰РµРµ РёР»Рё (СЃР»РѕР¶РµРЅРёРµ РїРѕ РјРѕРґСѓР»СЋ 2).", "0110");
+        questions[2] = new Question("РЎРѕР±РµСЂРёС‚Рµ РёРјРїР»РёРєР°С†РёСЋ.", "1101");
+        questions[3] = new Question("Р’СЃС‚Р°РІСЊС‚Рµ РїСЂР°РІРёР»СЊРЅС‹Р№ РЅР°Р±РѕСЂ РєРІР°РЅС‚РѕСЂРѕРІ Рё РїРµСЂРµРјРµРЅРЅС‹С… РІРјРµСЃС‚Рѕ <i><u>РѕС‚РІРµС‚</u></i> С‡С‚РѕР±С‹ РїРѕР»СѓС‡РёС‚СЊ РїСЂРµРґРІР°СЂРµРЅРЅСѓСЋ РЅРѕСЂРјР°Р»СЊРЅСѓСЋ С„РѕСЂРјСѓ С„РѕСЂРјСѓР»С‹ В¬(в€Ђxв€ѓy(A(x)в†”A(y)))\n<i><u>РѕС‚РІРµС‚</u></i>(В¬A(x)в†”A(y))", "xy]в€ѓxв€Ђy");
 
         return questions;
     }

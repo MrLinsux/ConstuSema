@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -42,9 +43,16 @@ public class QuantiferBlock : SemanticBlock
 
     protected override bool CheckCorrectBlock()
     {
-        return arguments.All(e =>
-        (e is RelationBlock) ||
-        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
-        (e is UserBlock));
+        try
+        {
+            return arguments.Any(e =>
+            (e is RelationBlock) ||
+            ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+            (e is UserBlock));
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

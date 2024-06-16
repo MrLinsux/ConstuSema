@@ -12,16 +12,14 @@ public class BlockDeck : MonoBehaviour
 
     private void Start()
     {
-        if (block is LogicGateBlock)
-        {
-            ((LogicGateBlock)block).SetBlockType(blockType);
+        block.SetBlockType(blockType);
+        if(!(block is UserBlock))
             GetComponentInChildren<TMP_Text>().text = block.BlockTitle;
-        }
     }
 
     public void SpawnBlock()
     {
-        if (block)
+        if (block != null)
         {
             var _block = Instantiate(block, 
                 block.transform.position + new Vector3(transform.position.x, transform.position.y, 0), 
@@ -29,10 +27,7 @@ public class BlockDeck : MonoBehaviour
                 GameObject.Find("Table").transform
                 ).GetComponent<SemanticBlock>();
 
-            if (_block is LogicGateBlock)
-            {
-                ((LogicGateBlock)_block).SetBlockType(blockType);
-            }
+            _block.SetBlockType(blockType);
 
         }
         else

@@ -98,7 +98,7 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
         if (IsBooleanFunction())
             res += BuildBooleanTableByConstruction(construction, argsNames, fullTable);
         else if (IsPredicate())
-            res += $"[{argsNames}]{construction}";
+            res += $"{argsNames}]{construction}";
 
         return res;
     }

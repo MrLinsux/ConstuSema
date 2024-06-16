@@ -36,9 +36,9 @@ public class LogicGateBlock : SemanticBlock
 
     public override string ToString()
     {
-        if(LogicGate == LogicTypes.NOT)
+        if (LogicGate == LogicTypes.NOT)
         {
-            return $"(!{arguments[0]})";
+            return $"(¬{arguments[0]})";
         }
         else
         {
@@ -48,9 +48,17 @@ public class LogicGateBlock : SemanticBlock
 
     protected override bool CheckCorrectBlock()
     {
-        return arguments.All(e =>
-        (e is LogicGateBlock) ||
-        ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
-        (e is UserBlock));
+        try
+        {
+            return arguments.All(e =>
+            ((e is QuantiferBlock) && (LogicGate == LogicTypes.NOT)) ||
+            (e is LogicGateBlock) ||
+            ((e is VariableBlock) && (((VariableBlock)e).VariableType == VariableType.Variable) || ((VariableBlock)e).VariableType == VariableType.Constatnt) ||
+            (e is UserBlock));
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
