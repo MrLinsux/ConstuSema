@@ -88,49 +88,60 @@ public class TestController : MonoBehaviour
             else if (semanticConstructions[i].GetComponent<SemanticConstructionPanel>().IsPredicate())
             {
                 string correctVariables = "";
-                int k = 0;
-                while (questions[i].Answer[k] != ']')
-                    correctVariables += questions[i].Answer[k++];
-
-                string correctConstruction = questions[i].Answer.Remove(0, correctVariables.Length + 1);
-
-                bool answerIsCorrect = true;
-
-                for(int j = 0; j < correctConstruction.Length; j++)
+                if (questions[i].Answer.IndexOf(']') > -1)
                 {
-                    string correctQuantifer;
+                    int k = 0;
+                    while (questions[i].Answer[k] != ']' && k < questions[i].Answer.Length)
+                        correctVariables += questions[i].Answer[k++];
 
-                    if (correctConstruction[j] == '¬')      // if negative
+                    string correctConstruction = questions[i].Answer.Remove(0, correctVariables.Length + 1);
+
+                    bool answerIsCorrect = true;
+
+                    for (int j = 0; j < correctConstruction.Length; j++)
                     {
-                        correctQuantifer =
-                            correctConstruction[j].ToString() +         // ¬
-                            correctConstruction[j + 1].ToString() +     // (
-                            correctConstruction[j + 2].ToString() +     // quantifer
-                            correctConstruction[j + 3].ToString() +     // var
-                            correctConstruction[j + 4].ToString();      // )
+                        string correctQuantifer;
 
-                        if (answer.IndexOf(correctQuantifer) < 0)
+                        if (correctConstruction[j] == '¬')      // if negative
                         {
-                            answerIsCorrect = false;
-                            break;
+                            correctQuantifer =
+                                correctConstruction[j].ToString() +         // ¬
+                                correctConstruction[j + 1].ToString() +     // (
+                                correctConstruction[j + 2].ToString() +     // quantifer
+                                correctConstruction[j + 3].ToString() +     // var
+                                correctConstruction[j + 4].ToString();      // )
+
+                            if (answer.IndexOf(correctQuantifer) < 0)
+                            {
+                                answerIsCorrect = false;
+                                break;
+                            }
+
                         }
-
-                    }
-                    else if("∀∃∄".IndexOf(correctConstruction[j]) >= 0)     // if quantifer
-                    {
-                        correctQuantifer =
-                            correctConstruction[j].ToString() +     // quantifer
-                            correctConstruction[j + 1].ToString();     // var
-
-                        if (answer.IndexOf(correctQuantifer) < 0)
+                        else if ("∀∃∄".IndexOf(correctConstruction[j]) >= 0)     // if quantifer
                         {
-                            answerIsCorrect = false;
-                            break;
+                            correctQuantifer =
+                                correctConstruction[j].ToString() +     // quantifer
+                                correctConstruction[j + 1].ToString();     // var
+
+                            if (answer.IndexOf(correctQuantifer) < 0)
+                            {
+                                answerIsCorrect = false;
+                                break;
+                            }
                         }
                     }
+
+                    res += $"Вопрос {i.ToString()} : ответ {(answerIsCorrect ? "верный" : "неверный")}\n";
                 }
-
-                res += $"Вопрос {i.ToString()} : ответ {(answerIsCorrect ? "верный" : "неверный")}\n";
+                else
+                {
+                    res += $"Вопрос {i.ToString()} : ответ неверный\n";
+                }
+            }
+            else
+            {
+                res += $"Вопрос {i.ToString()} : ответ неверный\n";
             }
         }
         ClearTest();

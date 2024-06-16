@@ -105,12 +105,12 @@ public class SemanticConstructionPanel : MonoBehaviour, IDropHandler, IPointerEn
 
     public bool IsBooleanFunction()
     {
-        return transform.GetComponentsInChildren<SemanticBlock>(true).All(e => (e is VariableBlock) || (e is LogicGateBlock) || (e is UserBlock));
+        return GetComponentsInChildren<SemanticBlock>(true).All(e => !(e is QuantiferBlock)) && GetComponentsInChildren<SemanticBlock>(true).Any(e => (e is LogicGateBlock));
     }
 
     public bool IsPredicate()
     {
-        return transform.GetComponentsInChildren<SemanticBlock>(true).All(e => (e is VariableBlock) || (e is LogicGateBlock) || (e is QuantiferBlock) || (e is UserBlock));
+        return GetComponentsInChildren<SemanticBlock>(true).Any(e => (e is QuantiferBlock));
     }
 
     string BuildBooleanTableByConstruction(string construction, string argsNames, bool fullTable)
