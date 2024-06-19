@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -243,7 +243,8 @@ MonoBehaviour:
   blockTitle: {fileID: 8352391645959046772}
   blockType: 0
   numberOfPlaces: 1
-  function: 0
+  standartOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  incorrectOutlineColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1693431312167771855
 MonoBehaviour:
   m_ObjectHideFlags: 0

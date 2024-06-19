@@ -81,63 +81,9 @@ public class TestController : MonoBehaviour
         {
             var answer = semanticConstructions[i].GetComponent<SemanticConstructionPanel>().CheckConstruction(false);
 
-            if (semanticConstructions[i].GetComponent<SemanticConstructionPanel>().IsBooleanFunction())
+            if (semanticConstructions[i].GetComponent<SemanticConstructionPanel>())
             {
                 res += $"Вопрос {i.ToString()} : ответ {(questions[i].AnswerIsCorrect(answer) ? "верный" : "неверный")}\n";
-            }
-            else if (semanticConstructions[i].GetComponent<SemanticConstructionPanel>().IsPredicate())
-            {
-                string correctVariables = "";
-                if (questions[i].Answer.IndexOf(']') > -1)
-                {
-                    int k = 0;
-                    while (questions[i].Answer[k] != ']' && k < questions[i].Answer.Length)
-                        correctVariables += questions[i].Answer[k++];
-
-                    string correctConstruction = questions[i].Answer.Remove(0, correctVariables.Length + 1);
-
-                    bool answerIsCorrect = true;
-
-                    for (int j = 0; j < correctConstruction.Length; j++)
-                    {
-                        string correctQuantifer;
-
-                        if (correctConstruction[j] == '¬')      // if negative
-                        {
-                            correctQuantifer =
-                                correctConstruction[j].ToString() +         // ¬
-                                correctConstruction[j + 1].ToString() +     // (
-                                correctConstruction[j + 2].ToString() +     // quantifer
-                                correctConstruction[j + 3].ToString() +     // var
-                                correctConstruction[j + 4].ToString();      // )
-
-                            if (answer.IndexOf(correctQuantifer) < 0)
-                            {
-                                answerIsCorrect = false;
-                                break;
-                            }
-
-                        }
-                        else if ("∀∃∄".IndexOf(correctConstruction[j]) >= 0)     // if quantifer
-                        {
-                            correctQuantifer =
-                                correctConstruction[j].ToString() +     // quantifer
-                                correctConstruction[j + 1].ToString();     // var
-
-                            if (answer.IndexOf(correctQuantifer) < 0)
-                            {
-                                answerIsCorrect = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    res += $"Вопрос {i.ToString()} : ответ {(answerIsCorrect ? "верный" : "неверный")}\n";
-                }
-                else
-                {
-                    res += $"Вопрос {i.ToString()} : ответ неверный\n";
-                }
             }
             else
             {
@@ -161,7 +107,7 @@ public class TestController : MonoBehaviour
         questions[0] = new Question("Соберите конъюнкцию.", "0001");
         questions[1] = new Question("Соберите исключающее или (сложение по модулю 2).", "0110");
         questions[2] = new Question("Соберите импликацию.", "1101");
-        questions[3] = new Question("Вставьте правильный набор кванторов и переменных вместо <i><u>ответ</u></i> чтобы получить предваренную нормальную форму формулы ¬(∀x∃y(A(x)↔A(y)))\n<i><u>ответ</u></i>(¬A(x)↔A(y))", "xy]∃x∀y");
+        questions[3] = new Question("Вставьте правильный набор кванторов и переменных чтобы получить предваренную нормальную форму формулы ¬(∀x∃y(A(x)↔A(y)))", "xy]∃x∀y((¬Ax)↔Ay)");
 
         return questions;
     }
