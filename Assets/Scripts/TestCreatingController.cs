@@ -1,13 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Unity.Mathematics;
 
 public class TestCreatingController : MonoBehaviour
 {

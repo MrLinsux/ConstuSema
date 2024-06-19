@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using UnityEditor.Experimental.GraphView;
+﻿using System.Linq;
 using UnityEngine;
 
 public enum FunctionsType

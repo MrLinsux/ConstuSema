@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using System.Linq;
 
 public enum RelationType { Equal, NotEqual, Bigger, BiggerOrEqual, Less, LessOrEqual, Member, Subset }
 
