@@ -228,7 +228,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockTitle: {fileID: 2935597458323673292}
   blockType: 0
-  numberOfPlaces: 0
+  maxNumberOfPlaces: 0
+  minNumberOfPlaces: 0
+  standartOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  incorrectOutlineColor: {r: 1, g: 0, b: 0, a: 1}
   variableName: 50
 --- !u!225 &2663672979021923419
 CanvasGroup:

@@ -31,14 +31,7 @@ public class QuantiferBlock : SemanticBlock
 
     public override string ToString()
     {
-        if(arguments.Length == NumberOfPlaces)
-        {
-            return asChar[blockType] + arguments[0].ToString();
-        }
-        else
-        {
-            return null;
-        }
+        return asChar[blockType] + arguments[0].ToString();
     }
 
     protected override bool CheckCorrectBlock()

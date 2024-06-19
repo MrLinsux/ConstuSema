@@ -23,7 +23,7 @@ public class UserBlock : SemanticBlock
 
     public override void SetBlockType(int blockTypeNumber)
     {
-        NumberOfPlaces = 1;
+        MaxNumberOfPlaces = 1;
     }
 
     public override string ToString()

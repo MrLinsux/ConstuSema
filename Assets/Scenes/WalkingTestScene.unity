@@ -2270,7 +2270,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 107.75964, y: 0, z: 107.493835, w: 0}
+  m_margin: {x: 107.75964, y: 0, z: 136.80145, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e972aabdba647a448462d6e06bdab05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inspectorIsEasyTest: 1
+  inspectorIsEasyTest: 0
   taskPanel: {fileID: 1013151803}
   table: {fileID: 543981088}
   semanticConstruction: {fileID: 1636735324}
@@ -4110,7 +4110,7 @@ PrefabInstance:
       objectReference: {fileID: 5583842464696175449, guid: 86eebc3d182beba45ae33143e0bc2293, type: 3}
     - target: {fileID: 5783537448107309227, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: blockType
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8104348038703947519, guid: fd847d8def8b8ac43a88b92ab1c04b9b, type: 3}
       propertyPath: m_Name
@@ -4217,8 +4217,8 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

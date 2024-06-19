@@ -202,7 +202,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockTitle: {fileID: 746191391860802011}
   blockType: 0
-  numberOfPlaces: 1
+  maxNumberOfPlaces: 1
+  minNumberOfPlaces: 1
+  standartOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  incorrectOutlineColor: {r: 1, g: 0, b: 0, a: 1}
   inputNameField: {fileID: 4619792029574326799}
   saveButton: {fileID: 4876933991362847314}
   standartBlockName: MyBlock

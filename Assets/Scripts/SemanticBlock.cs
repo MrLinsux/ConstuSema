@@ -29,7 +29,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
     bool IsTestScene { get { return SceneManager.GetActiveScene().buildIndex == 2; } }
 
-    public bool IsCorrectBlock { get { return CheckCorrectBlock() && AllPlacesOccepied; } }
+    public bool IsCorrectBlock { get { return CheckCorrectBlock() && EnoughPlacesOccepied; } }
 
     protected abstract bool CheckCorrectBlock();
 
@@ -42,13 +42,31 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
     // inspector
     [SerializeField]
-    int numberOfPlaces = 2;
-    public int NumberOfPlaces { get { return numberOfPlaces; } 
-        protected set { 
-            numberOfPlaces = value;
-        } }
+    int maxNumberOfPlaces = 2;
+    public int MaxNumberOfPlaces { get { return maxNumberOfPlaces; } 
+        protected set
+        {
+            maxNumberOfPlaces = value;
+        }
+    }
+    [SerializeField]
+    int minNumberOfPlaces = 2;
+    public int MinNumberOfPlaces
+    {
+        get { return minNumberOfPlaces; }
+        protected set
+        {
+            minNumberOfPlaces = value;
+        }
+    }
+
+    protected void SetBothNumberOfPlaces(int numberOfPlaces)
+    {
+        MaxNumberOfPlaces = MinNumberOfPlaces = numberOfPlaces;
+    }
+
     public int CurrentPlacesOccupied { get { return arguments.Length; } }
-    public bool AllPlacesOccepied { get { return NumberOfPlaces == CurrentPlacesOccupied; } }
+    public bool EnoughPlacesOccepied { get { return MaxNumberOfPlaces >= CurrentPlacesOccupied && CurrentPlacesOccupied >= MinNumberOfPlaces; } }
 
     [SerializeField]
     Color standartOutlineColor = Color.white;
@@ -62,7 +80,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
     public void SetCorrectOutlineColor()
     {
-        SetCorrectOutlineColor(CheckCorrectBlock() && AllPlacesOccepied);
+        SetCorrectOutlineColor(CheckCorrectBlock() && EnoughPlacesOccepied);
     }
 
     // semantic params
@@ -164,7 +182,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
     {
         SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
 
-        if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
+        if (semanticBlock && CurrentPlacesOccupied < MaxNumberOfPlaces)
         {
             semanticBlock.DefaultParent = transform;
         }
@@ -184,7 +202,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
 
         SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
 
-        if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
+        if (semanticBlock && CurrentPlacesOccupied < MaxNumberOfPlaces)
         {
             semanticBlock.SetBlockShadowActive(true);
             semanticBlock.SetBlockShadowForm();
@@ -205,7 +223,7 @@ public abstract class SemanticBlock : MonoBehaviour, IDragHandler, IBeginDragHan
         SemanticBlock semanticBlock = eventData.pointerDrag.GetComponent<SemanticBlock>();
 
 
-        if (semanticBlock && CurrentPlacesOccupied < NumberOfPlaces)
+        if (semanticBlock && CurrentPlacesOccupied < MaxNumberOfPlaces)
         {
             semanticBlock.SetBlockShadowActive(false);
             semanticBlock.DefaultShadowParent = semanticBlock.DefaultParent;

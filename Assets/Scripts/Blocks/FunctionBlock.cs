@@ -2,35 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum FunctionsType
 { 
-    PREDICATE, SIN, COS, TAN, CTAN, ARCSIN, ARCCOS, ARCTAN, ARCCTAN, ABS, LN, // function with one argument
-    LOG, POW                                                       // functions with two arguments
+    SIN, COS, TAN, CTAN, ARCSIN, ARCCOS, ARCTAN, ARCCTAN, ABS, LN, // function with one argument
+    LOG, POW,                                                      // functions with two arguments
+    PREDICATE                                                      // function with n (max is 5) arguments
 }
 
 public class FunctionBlock : SemanticBlock
 {
-    string[] functionTitles = new string[] { "A", "SIN", "COS", "TAN", "CTAN", "ARCSIN", "ARCCOS", "ARCTAN", "ARCCTAN", "ABS", "POW", "LOG", "LN" };
-    public const string asChar = " ⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄⋆⋇";
-    public char PredicateTitle { get { return functionTitles[0][0]; } set { functionTitles[0] = value.ToString(); blockTitle.text = value.ToString(); } }
+    string[] functionTitles = new string[] { 
+        "SIN", "COS", "TAN", "CTAN", "ARCSIN", "ARCCOS", "ARCTAN", "ARCCTAN", "ABS", "LN", 
+        "LOG", "POW", 
+        "A" };
+    public const string asChar = "⊲⊳⊴⊵⊶⊷⊸⊹⊺⋄⋆⋇";
+    public char PredicateTitle { 
+        get { return functionTitles[(int)Function][0]; } 
+        private set { functionTitles[(int)Function] = value.ToString(); blockTitle.text = value.ToString(); } }
 
     public FunctionsType Function { get { return (FunctionsType)blockType; } }
 
     public override string ToString()
     {
-        if(Function == FunctionsType.PREDICATE)
-        {
-            return PredicateTitle + arguments[0].ToString();
-        }
-        else if (Function <= FunctionsType.LN)
+        if (Function <= FunctionsType.LN)
         {
             return asChar[blockType] + arguments[0].ToString();
         }
-        else
+        else if (Function <= FunctionsType.POW)
         {
             return arguments[0].ToString() + asChar[blockType] + arguments[1].ToString();
+        }
+        else
+        {
+            return PredicateTitle + arguments[0].ToString();
         }
     }
 
@@ -40,12 +47,18 @@ public class FunctionBlock : SemanticBlock
         blockTitle.text = functionTitles[blockType];
         if (blockType <= (int)FunctionsType.LN)
         {
-            NumberOfPlaces = 1;
+            SetBothNumberOfPlaces(1);
+        }
+        else if(blockType <= (int)FunctionsType.POW)
+        {
+            SetBothNumberOfPlaces(2);
         }
         else
         {
-            NumberOfPlaces = 2;
+            MaxNumberOfPlaces = 5;
+            MinNumberOfPlaces = 1;
         }
+        
     }
 
     public void SetBlockType(OperationsType function)
@@ -101,7 +114,7 @@ public class FunctionBlock : SemanticBlock
 
     void Update()
     {
-        if(blockType == 0)
+        if(Function == FunctionsType.PREDICATE)
             if (PointerIsInObject)
             {
                 float scrollInput = Input.GetAxis("Mouse ScrollWheel");

@@ -25,11 +25,11 @@ public class LogicGateBlock : SemanticBlock
         BlockTitle = logicGatesTitles[blockType];
         if (blockType == 0)
         {
-            NumberOfPlaces = 1;
+            MaxNumberOfPlaces = MinNumberOfPlaces = 1;
         }
         else
         {
-            NumberOfPlaces = 2;
+            MaxNumberOfPlaces = MinNumberOfPlaces = 2;
         }
 
     }
